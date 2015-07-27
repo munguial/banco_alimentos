@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco de alimentos</title>
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+   <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="static/css/index.css">
+
+  <!--script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh3dBvnFPFSuyaDFRM2ggdnKfd4MdbOLQ">
+  </script-->
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+
+  <!--script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?libraries=places">
+  </script-->
+  <!--script>
+  </script-->
+
+  <script src="static/js/index.js"></script>
+
+</head>
+<body>
+    <div id="container" class="container-fluid">
+      <div class="row">
+        <div class="header">
+          <h3>Banco de alimentos</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <div></div>
+        </div>
+        <div class="col-xs-7">
+          <h4>Ingresa tu direccion o selecciona un punto en el mapa</h4>
+          <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+          <div id="map-div"></div>
+        </div>
+        <div class="col-xs-4">
+          <div>
+            <div id="searchResults"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
