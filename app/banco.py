@@ -3,11 +3,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Contact, Institution, TagName, Tag
+from flask.ext.heroku import Heroku
+import os
 
 app = Flask(__name__)
+heroku = Heroku(app)
 
-
-engine = create_engine('postgresql://amunguia:@localhost/banco')
+engine = create_engine(os.environ["DATABASE_URL"])
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -34,7 +36,8 @@ def search():
 
 	magicQuery = text(
 		"""SELECT * FROM
-			(SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS hq, i.description, 
+			(SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS
+			 hq, i.description, 
 			        (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
 			 FROM contacts AS c INNER JOIN institutions AS i
 			 ON c.inst_id = i.id) AS t1

@@ -25,18 +25,6 @@ class Contact(Base):
     address = Column(String(250))
     notas = Column(String(500))
 
-    @property
-    def serialize(self):
-        #Returns an easily serializeable object for contacts
-        return {
-            'id' : self.id,
-            'lat' : self.latitude,
-            'lng' : self.longitude,
-            'address' : self.address,
-            'notes' : self.notas
-        }
-
-
 class TagName(Base):
     __tablename__ = 'tag_names'
     id = Column(Integer, primary_key=True)
@@ -52,5 +40,5 @@ class Tag(Base):
     tag_name = relationship(TagName)
 
 
-engine = create_engine('postgresql://amunguia:@localhost/banco')
+engine = create_engine(os.environ["DATABASE_URL"])
 Base.metadata.create_all(engine)
