@@ -13,6 +13,8 @@ class Institution(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     address = Column(String(250))
+    telephone1 = Column(String(15))
+    telephone2 = Column(String(15))
     description = Column(String(250))
 
 class Contact(Base):
@@ -23,6 +25,8 @@ class Contact(Base):
     latitude = Column(Float(10,6), nullable=False)
     longitude = Column(Float(10,6), nullable=False)
     address = Column(String(250))
+    telephone1 = Column(String(15))
+    telephone2 = Column(String(15))
     notas = Column(String(500))
 
 class TagName(Base):
