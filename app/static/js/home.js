@@ -1,4 +1,4 @@
-var radius = 10;
+var radius = 5;
 var markers = [];
 var map;
 var searchResultHTML = "<div class='resultEntry'></div></br>";
@@ -8,26 +8,12 @@ var HTMLcontactNotes = "<div class'contactNotes'>%data%</div>";
 
 function initialize() {
 
+  var myLatlng = new google.maps.LatLng(20.711076, -103.410004);
   map = new google.maps.Map(document.getElementById('map-div'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-	  zoom: 11
+    center: myLatlng,
+	zoom: 13
   });
-
-  // Try HTML5 geolocation
-  if(navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      map.setCenter(pos);
-      placeMarker(pos, map, "aquí estás", true);
-    }, function() {
-      //GeoLocation service failed
-      map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
-    });
-  } 
-  else {
-    // Browser doesn't support Geolocation
-    map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
-  }
 
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
@@ -55,7 +41,7 @@ function initialize() {
     var lat = place.geometry.location.A;
     var lng = place.geometry.location.F;
 
-    placeMarker(place.geometry.location, map, place.title, true);
+    placeMarker(place.geometry.location, map, place.title);
     map.setCenter(place.geometry.location);
     searchClosestContacts(lat, lng, radius);
   });
@@ -84,7 +70,7 @@ function initialize() {
     for(var i = 0; i < items.length; i++){
       console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
-      placeMarker(latlng, map, items[i].name, false);
+      placeMarker(latlng, map, items[i].name);
     }
   }
 
@@ -95,14 +81,14 @@ function initialize() {
     searchBox.setBounds(bounds);
   });
 
-  /*google.maps.event.addListener(map, 'click', function(e) {
+  google.maps.event.addListener(map, 'click', function(e) {
     var lat = e.latLng.A;
     var lng = e.latLng.F;
     clearMarkers();
-    placeMarker(e.latLng, map, "", true);
-    searchClosestContacts(lat, lng, radius);
+    placeMarker(e.latLng, map, "");
+    var contacts = searchClosestContacts(lat, lng, radius);
     map.setCenter(e.latLng);
-  });*/
+  });
 
   function clearMarkers(){
     for (var i = 0, marker; marker = markers[i]; i++) {
@@ -110,52 +96,13 @@ function initialize() {
     }
   }
 
-  function clearResultsMarkers(){
-    for (var i = 0, marker; marker = markers[i]; i++) {
-      if(marker.draggable === undefined){
-        marker.setMap(null);
-      }
-    }
-  }
-
-  function placeMarker(position, map, title, isSetByUser) {
-    var image = {
-      url: 'static/images/icon.jpg',
-      // This marker is 20 pixels wide by 32 pixels tall.
-      size: new google.maps.Size(20, 32),
-      // The origin for this image is 0,0.
-      origin: new google.maps.Point(0,0),
-      // The anchor for this image is the base of the flagpole at 0,32.
-      anchor: new google.maps.Point(0, 32)
-    };
-
-    var marker;
-    if(isSetByUser) {
-      marker = new google.maps.Marker({
-        position: position,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        title: title,
-        draggable: true
-      });
-
-      google.maps.event.addListener(marker,'dragend',function(event) {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
-        clearResultsMarkers();
-        searchClosestContacts(lat, lng, radius);
-        map.setCenter(event.latLng);
-      });
-    }
-    else{
-      marker = new google.maps.Marker({
-        position: position,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        icon: "static/images/icon.png",
-        title: title
-      });
-    }
+  function placeMarker(position, map, title) {
+	  var marker = new google.maps.Marker({
+	    position: position,
+	    map: map,
+      animation: google.maps.Animation.DROP,
+      title: title
+	  });
     markers.push(marker);
   }
 
