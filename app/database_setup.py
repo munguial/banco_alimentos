@@ -15,7 +15,9 @@ class Institution(Base):
     address = Column(String(250))
     telephone1 = Column(String(15))
     telephone2 = Column(String(15))
-    description = Column(String(250))
+    email = Column(String(255))
+    url = Column(String(512))
+    description = Column(String(2000))
 
 class Contact(Base):
     __tablename__ = 'contacts'
@@ -27,7 +29,9 @@ class Contact(Base):
     address = Column(String(250))
     telephone1 = Column(String(15))
     telephone2 = Column(String(15))
-    notas = Column(String(500))
+    email = Column(String(255))
+    url = Column(String(512))
+    notas = Column(String(2000))
 
 class TagName(Base):
     __tablename__ = 'tag_names'
