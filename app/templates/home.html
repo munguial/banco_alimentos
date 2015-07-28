@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+  <link rel="stylesheet" src="https://normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/home.css">
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+  <script src="static/js/home.js"></script>
+
+</head>
+<body>
+    <div id="container" class="container-fluid">
+      <div class="row">
+        <div class="header">
+          <h3>{{institution.name}} - Home</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <div></div>
+        </div>
+        <div class="col-xs-7">
+          <form id='contact-form'>
+            <div>Dirección</div> <input type='text' class='inputForm' name='address'/>
+            <div>Teléfono de contacto</div> <input type='text' class='inputForm' name='phone'/>
+            <div>Notas</div> <textarea class='textareaForm' name='notes'></textarea>
+            <input id="pac-input" class="controls" type="text" placeholder="Dirección del punto de contacto"/>
+            <div>Ubicación</div><div id="map-div"></div>
+            <input id='latInput' type='hidden' name='latitude'/>
+            <input id='lngInput' type='hidden' name='longitude'/>
+            <input type="submit" value="Guardar">
+          </form>
+        </div>
+        <div class="col-xs-4">
+          <div>
+            <div id="searchResults"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
