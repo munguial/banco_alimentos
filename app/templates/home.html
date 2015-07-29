@@ -16,31 +16,56 @@
     <div id="container" class="container-fluid">
       <div class="row">
         <div class="header">
-          <h3>{{institution.name}} - Home</h3>
+          <h3>Home</h3>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-1">
-          <div></div>
-        </div>
-        <div class="col-xs-7">
-          <form id='contact-form'>
-            <div>Dirección</div> <input type='text' class='inputForm' name='address'/>
-            <div>Teléfono de contacto</div> <input type='text' class='inputForm' name='phone'/>
-            <div>Notas</div> <textarea class='textareaForm' name='notes'></textarea>
-            <input id="pac-input" class="controls" type="text" placeholder="Dirección del punto de contacto"/>
-            <div>Ubicación</div><div id="map-div"></div>
-            <input id='latInput' type='hidden' name='latitude'/>
-            <input id='lngInput' type='hidden' name='longitude'/>
-            <input type="submit" value="Guardar">
-          </form>
-        </div>
-        <div class="col-xs-4">
-          <div>
-            <div id="searchResults"></div>
-          </div>
+        <div class="col-xs-12">
+          Registra tus puntos de contacto
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-7">
+          <form id='contact-form' class="form-horizontal">
+            <div class="form-group">
+                <label for="telephone" class="control-label col-xs-3">Teléfono de contacto</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" placeholder="Teléfono" id="inputPhone">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="notas" class="control-label col-xs-3">Notas</label>
+                <div class="col-xs-9">
+                    <textarea class="form-control" id="inputNotes" placeholder="Notas adicionales acerca de este punto de contacto" ></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address" class="control-label col-xs-3">Ubicación</label>
+              <div class="col-xs-9">
+                <input id="pac-input" class="form-control" type="text" placeholder="Dirección del punto de contacto"/>
+                Ingresa la dirección del punto de contacto, si no aparece correctamente ubicado en el mapa entonces arrastra el globo rojo al punto correcto
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-xs-12">
+                <div id="map-div"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-offset-5 col-xs-5">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-xs-2">
+          <div id="registeredContacts"></div>
+        </div>
+      </div>
+      
     </div>
 </body>
 </html>

@@ -19,6 +19,7 @@ function initialize() {
       var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       map.setCenter(pos);
       placeMarker(pos, map, "aquí estás", true);
+      searchClosestContacts(pos.lat(), pos.lng(), radius);
     }, function() {
       //GeoLocation service failed
       map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
@@ -144,7 +145,6 @@ function initialize() {
         var lng = event.latLng.lng();
         clearResultsMarkers();
         searchClosestContacts(lat, lng, radius);
-        map.setCenter(event.latLng);
       });
     }
     else{
@@ -158,7 +158,6 @@ function initialize() {
     }
     markers.push(marker);
   }
-
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
