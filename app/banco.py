@@ -18,43 +18,43 @@ session = DBSession()
 
 @app.route('/')
 def index():
-    items = session.query(Institution).all()
-    output = ''
-    for i in items:
-        output += i.name
-        output += '</br>'
-    return render_template('index.html', chido = output)
+    return render_template('index.html')
+
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    if request.method == 'GET':
+        return render_template('home.html')
 
 @app.route('/search')
 def search():
-	lat = request.args.get('lat')
-	lng = request.args.get('lng')
-	rad = request.args.get('radius')
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+    rad = request.args.get('radius')
 
-	if not lat or not lng:
-		return
+    if not lat or not lng:
+        return
 
-	magicQuery = text(
-		"""SELECT * FROM
-			(SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS
-			 hq, i.description, 
-			        (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
-			 FROM contacts AS c INNER JOIN institutions AS i
-			 ON c.inst_id = i.id) AS t1
-		WHERE distance < :r 
-		ORDER BY distance 
-		LIMIT 20""")
+    magicQuery = text(
+        """SELECT * FROM
+            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS
+             hq, i.description, 
+                    (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
+             FROM contacts AS c INNER JOIN institutions AS i
+             ON c.inst_id = i.id) AS t1
+        WHERE distance < :r 
+        ORDER BY distance 
+        LIMIT 20""")
 
-	items = session.execute(magicQuery, {"lat":lat, "lng":lng, "r":rad})
-	
-	resultset = []
-	for row in items:
-	    resultset.append(dict(row))
+    items = session.execute(magicQuery, {"lat":lat, "lng":lng, "r":rad})
+    
+    resultset = []
+    for row in items:
+        resultset.append(dict(row))
 
-	res = jsonify(items=resultset)
-	return res
+    res = jsonify(items=resultset)
+    return res
 
 if __name__ == '__main__':
-	app.debug = True
-	port = int(os.environ.get('PORT', 5000))
-	app.run(host='0.0.0.0', port=port)
+    app.debug = True
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
