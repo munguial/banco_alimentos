@@ -20,7 +20,23 @@ session = DBSession()
 def index():
     return render_template('index.html')
 
-@app.route('/home', methods=['GET', 'POST'])
+@app.route('/contacts/save', methods=['POST'])
+def saveContact():
+    print request.form
+    phone1 = request.form['phone1']
+    phone2 = request.form['phone2']
+    address = request.form['address']
+    notes = request.form['notes']
+    lat = request.form['lat']
+    lng = request.form['lng']
+
+    point_of_contact = Contact(institution=test_inst1, latitude=lat, longitude=lng, address=address, telephone1=phone1, telephone2=phone2, notas=notes)
+    session.add(point_of_contact)
+    session.commit()
+
+    return "success"
+
+@app.route('/home')
 def home():
     if request.method == 'GET':
         return render_template('home.html')
@@ -36,14 +52,11 @@ def search():
 
     magicQuery = text(
         """SELECT * FROM
-            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS
-             hq, i.description, 
+            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url, 
                     (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
              FROM contacts AS c INNER JOIN institutions AS i
              ON c.inst_id = i.id) AS t1
-        WHERE distance < :r 
-        ORDER BY distance 
-        LIMIT 20""")
+        WHERE distance < :r """)
 
     items = session.execute(magicQuery, {"lat":lat, "lng":lng, "r":rad})
     

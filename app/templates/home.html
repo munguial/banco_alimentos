@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Home</title>
   <link rel="stylesheet" src="https://normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="static/css/home.css">
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
@@ -25,47 +26,60 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-7">
-          <form id='contact-form' class="form-horizontal">
-            <div class="form-group">
-                <label for="telephone" class="control-label col-xs-3">Teléfono de contacto</label>
-                <div class="col-xs-9">
-                    <input type="text" class="form-control" placeholder="Teléfono" id="inputPhone">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="notas" class="control-label col-xs-3">Notas</label>
-                <div class="col-xs-9">
-                    <textarea class="form-control" id="inputNotes" placeholder="Notas adicionales acerca de este punto de contacto" ></textarea>
-                </div>
-            </div>
-
-            <div class="form-group">
-              <label for="address" class="control-label col-xs-3">Ubicación</label>
-              <div class="col-xs-9">
-                <input id="pac-input" class="form-control" type="text" placeholder="Dirección del punto de contacto"/>
-                Ingresa la dirección del punto de contacto, si no aparece correctamente ubicado en el mapa entonces arrastra el globo rojo al punto correcto
+        <form id='contact-form' action="/" class="form-horizontal">
+          <div class="col-xs-8">
+          <div class="col-xs-6">
+              <div class="form-group">
+                  <label for="telephone" class="control-label col-xs-3">Teléfono de contacto</label>
+                  <div class="col-xs-9">
+                      <input type="text" name="phone1" class="form-control" placeholder="Teléfono" id="inputPhone">
+                  </div>
               </div>
-            </div>
 
-            <div class="form-group">
-              <div class="col-xs-12">
-                <div id="map-div"></div>
+              <div class="form-group">
+                  <label for="telephone2" class="control-label col-xs-3">Teléfono alternativo</label>
+                  <div class="col-xs-9">
+                      <input type="text" class="form-control" name="phone2" id="inputPhone2" placeholder="Teléfono alterno">
+                  </div>
               </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-xs-offset-5 col-xs-5">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+              <div class="form-group">
+                  <label for="notas" class="control-label col-xs-3">Notas</label>
+                  <div class="col-xs-9">
+                      <textarea class="form-control" name="notes" id="inputNotes" placeholder="Notas adicionales acerca de este punto de contacto" ></textarea>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                <label for="address" class="control-label col-xs-3">Ubicación</label>
+                <div class="col-xs-9">
+                  <input id="pac-input" class="form-control" type="text" name="address" placeholder="Dirección del punto de contacto"/>
+                  Ingresa la dirección del punto de contacto, si no aparece correctamente ubicado en el mapa entonces arrastra el globo rojo al punto correcto
                 </div>
-            </div>
-          </form>
+              </div>
+              <div class="form-group">
+                  <div class="col-xs-offset-6 col-xs-5">
+                      <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="form-group">
+                <div class="col-xs-12">
+                  <div id="map-div"></div>
+                </div>
+              </div>
+          </div>
         </div>
-        <div class="col-xs-2">
+          <input type="hidden" id="latInput" name="lat">
+          <input type="hidden" id="lngInput" name="lng">
+        </form>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
           <div id="registeredContacts"></div>
         </div>
       </div>
-      
     </div>
 </body>
 </html>
