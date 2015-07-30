@@ -2,6 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 import os
 
 from database_setup import Base, Institution, Contact, TagName, Tag
@@ -10,6 +11,7 @@ engine = create_engine(os.environ["DATABASE_URL"])
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
+
 
 DBSession = sessionmaker(bind=engine)
 # A DBSession() instance establishes all conversations with the database
@@ -23,51 +25,51 @@ session = DBSession()
 
 
 
-test_inst1 = Institution(name="Institucion de prueba 1", address="calle 1 colonia 2", description="esta es una institucion de prueba")
+test_inst1 = Institution(name="Institucion de prueba 1", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion1@prueba.com", url="institucion1.com")
 session.add(test_inst1)
 
-test_inst2 = Institution(name="Institucion de prueba 2", address="calle 1 colonia 2", description="esta es una institucion de prueba")
+test_inst2 = Institution(name="Institucion de prueba 2", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion2@prueba.com", url="institucion2.com")
 session.add(test_inst2)
 
-test_inst3 = Institution(name="Institucion de prueba 3", address="calle 1 colonia 2", description="esta es una institucion de prueba")
+test_inst3 = Institution(name="Institucion de prueba 3", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion3@prueba.com", url="institucion3.com")
 session.add(test_inst3)
 
-test_inst4 = Institution(name="Institucion de prueba 4", address="calle 1 colonia 2", description="esta es una institucion de prueba")
+test_inst4 = Institution(name="Institucion de prueba 4", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion4@prueba.com", url="institucion4.com")
 session.add(test_inst4)
 
-test_inst5 = Institution(name="Institucion de prueba 5", address="calle 1 colonia 2", description="esta es una institucion de prueba")
+test_inst5 = Institution(name="Institucion de prueba 5", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion5@prueba.com", url="institucion5.com")
 session.add(test_inst5)
 
 
 
-contact1 = Contact(institution=test_inst1, latitude=20.704702, longitude=-103.376477, address="De las Américas 1608, Country Club, 44610 Guadalajara, Jal.", notas="punto de contacto de la institucion de prueba 1")
+contact1 = Contact(institution=test_inst1, latitude=20.704702, longitude=-103.376477, address="De las Américas 1608, Country Club, 44610 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 1")
 session.add(contact1)
 
-contact2 = Contact(institution=test_inst1, latitude=20.646173, longitude=-103.352513, address="Calle 5 179, 44440 Guadalajara, Jal.", notas="punto de contacto de la institucion de prueba 1")
+contact2 = Contact(institution=test_inst1, latitude=20.646173, longitude=-103.352513, address="Calle 5 179, 44440 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 1")
 session.add(contact2)
 
-contact3 = Contact(institution=test_inst2, latitude=20.650698, longitude=-103.220313, address="Av de las Praderas, Rancho de La Cruz, Coyula, Jal.", notas="punto de contacto de la institucion de prueba 2") 
+contact3 = Contact(institution=test_inst2, latitude=20.650698, longitude=-103.220313, address="Av de las Praderas, Rancho de La Cruz, Coyula, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 2") 
 session.add(contact3)
 
-contact4 = Contact(institution=test_inst2, latitude=20.506119, longitude=-103.170030, address="Juanacatlán Centro, Juanacatlán, Jal.", notas="punto de contacto de la institucion de prueba 2")
+contact4 = Contact(institution=test_inst2, latitude=20.506119, longitude=-103.170030, address="Juanacatlán Centro, Juanacatlán, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 2")
 session.add(contact4)
 
-contact5 = Contact(institution=test_inst3, latitude=18.539734, longitude=-99.554679, address="Juliantla, Gro.", notas="punto de contacto de la institucion de prueba 3")
+contact5 = Contact(institution=test_inst3, latitude=18.539734, longitude=-99.554679, address="Juliantla, Gro.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 3")
 session.add(contact5)
 
-contact6 = Contact(institution=test_inst3, latitude=20.672569, longitude=-102.570216, address="Calle Pedro Moreno 146A, San José de Gracia, Jal.", notas="punto de contacto de la institucion de prueba 3")
+contact6 = Contact(institution=test_inst3, latitude=20.672569, longitude=-102.570216, address="Calle Pedro Moreno 146A, San José de Gracia, Jal.", telephone1="3325487456", telephone2="32546898745",notas="punto de contacto de la institucion de prueba 3")
 session.add(contact6)
 
-contact7 = Contact(institution=test_inst4, latitude=22.145660, longitude=-102.412831, address="Juan Hernández Loera 309, 20500 San José de Gracia, Ags.", notas="punto de contacto de la institucion de prueba 4")
+contact7 = Contact(institution=test_inst4, latitude=22.145660, longitude=-102.412831, address="Juan Hernández Loera 309, 20500 San José de Gracia, Ags.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 4")
 session.add(contact7)
 
-contact8 = Contact(institution=test_inst4, latitude=21.924705, longitude=-102.283652, address="Pozo del Oro 112, Aguascalientes, Ags.", notas="punto de contacto de la institucion de prueba 4")
+contact8 = Contact(institution=test_inst4, latitude=21.924705, longitude=-102.283652, address="Pozo del Oro 112, Aguascalientes, Ags.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 4")
 session.add(contact8)
 
-contact9 = Contact(institution=test_inst5, latitude=21.878277, longitude=-102.249852, address="Las Cumbres 701, Aguascalientes, Ags.", notas="punto de contacto de la institucion de prueba 5")
+contact9 = Contact(institution=test_inst5, latitude=21.878277, longitude=-102.249852, address="Las Cumbres 701, Aguascalientes, Ags.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 5")
 session.add(contact9)
 
-contact10 = Contact(institution=test_inst5, latitude=20.709214, longitude=-103.410084, address="cartelera, Real de Acueducto, Puerta de Hierro, 45116 Zapopan, Jal.", notas="punto de contacto de la institucion de prueba 5") 
+contact10 = Contact(institution=test_inst5, latitude=20.709214, longitude=-103.410084, address="cartelera, Real de Acueducto, Puerta de Hierro, 45116 Zapopan, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 5") 
 session.add(contact10)
 
 

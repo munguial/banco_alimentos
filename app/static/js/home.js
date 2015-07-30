@@ -1,5 +1,7 @@
 var markers = [];
 var map;
+var lat;
+var lng;
 
 function initialize() {
 
@@ -8,12 +10,33 @@ function initialize() {
 	  zoom: 11
   });
 
+  var input = (document.getElementById('pac-input'));
+  var geocoder = new google.maps.Geocoder();
+
   // Try HTML5 geolocation
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       map.setCenter(pos);
-      placeMarker(pos, map, "aquí estás", true);
+      placeMarker(pos, map, "", true);
+      lat = pos.lat()
+      lng = pos.lng()
+
+      //Get current address string and set to input address field
+
+      geocoder.geocode({'location': pos}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          $("#pac-input").val(results[0].formatted_address);
+          //infowindow.setContent(results[1].formatted_address);
+        } else {
+          window.alert('No fué posible encontrar su dirección, por favor introduzca su dirección manualmente');
+        }
+        } else {
+          window.alert('No fué posible encontrar su dirección, por favor introduzca su dirección manualmente: ' + status);
+        }
+      });
+
     }, function() {
       //GeoLocation service failed
       map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
@@ -23,11 +46,6 @@ function initialize() {
     // Browser doesn't support Geolocation
     map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
   }
-
-  // Create the search box and link it to the UI element.
-  var input = /** @type {HTMLInputElement} */(
-      document.getElementById('pac-input'));
-  //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   var searchBox = new google.maps.places.SearchBox(
     /** @type {HTMLInputElement} */(input));
@@ -47,22 +65,12 @@ function initialize() {
     var bounds = new google.maps.LatLngBounds();
 
     var place = places[0];
-    var lat = place.geometry.location.A;
-    var lng = place.geometry.location.F;
+    lat = place.geometry.location.A;
+    lng = place.geometry.location.F;
 
     placeMarker(place.geometry.location, map, place.title);
     map.setCenter(place.geometry.location);
   });
-
-  function searchClosestContacts(lat, lng, radius){
-    var url = "/search";
-    $.get(url, {"lat":lat, "lng":lng, "radius":radius}, function(data, status){
-      if(status === "success"){
-        placePins(data.items);
-        displayResults(data.items);
-      }
-    }, "json");
-  }
 
   // Bias the SearchBox results towards places that are within the bounds of the
   // current map's viewport.
@@ -87,22 +95,49 @@ function initialize() {
 	  });
 
     google.maps.event.addListener(marker,'dragend',function(event) {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
-      });
-
+        lat = event.latLng.lat();
+        lng = event.latLng.lng();
+        //reverse geocoding
+        geocoder.geocode({'location': new google.maps.LatLng(lat, lng)}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+              $("#pac-input").val(results[0].formatted_address);
+            } else {
+              window.alert('No fué posible encontrar su dirección, por favor introduzca su dirección manualmente');
+            }
+            } else {
+              window.alert('No fué posible encontrar su dirección, por favor introduzca su dirección manualmente: ' + status);
+            }
+        });
+    });
     markers.push(marker);
   }
-
 }
 
 $(document).ready(function() {
+
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
       event.preventDefault();
       return false;
     }
   });
+
+
+  $("#contact-form").submit(function( event ) {
+    event.preventDefault();
+    $("#latInput").val(lat);
+    $("#lngInput").val(lng);
+    var posting = $.post('/contacts/save', $("#contact-form").serialize());
+    
+    posting.done(function( data ) {
+      console.log(data);
+      //$( "#result" ).empty().append( content );
+    });
+
+  });
+
+
 });
 
 google.maps.event.addDomListener(window, 'load', initialize);
