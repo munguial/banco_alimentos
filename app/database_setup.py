@@ -30,6 +30,8 @@ class Contact(Base):
     address = Column(String(250))
     telephone1 = Column(String(15))
     telephone2 = Column(String(15))
+    email = Column(String(255))
+    url = Column(String(512))
     notas = Column(String(2000))
 
 class TagName(Base):
