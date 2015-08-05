@@ -2,6 +2,7 @@ var markers = [];
 var map;
 var lat;
 var lng;
+var HTMLtag = "<a class='label label-default'>%data%</a>";
 
 function initialize() {
 
@@ -114,6 +115,7 @@ function initialize() {
   }
 }
 
+
 $(document).ready(function() {
 
   $(window).keydown(function(event){
@@ -123,21 +125,23 @@ $(document).ready(function() {
     }
   });
 
-
-  $("#contact-form").submit(function( event ) {
-    event.preventDefault();
-    $("#latInput").val(lat);
-    $("#lngInput").val(lng);
-    var posting = $.post('/contacts/save', $("#contact-form").serialize());
-    
-    posting.done(function( data ) {
-      console.log(data);
-      //$( "#result" ).empty().append( content );
-    });
-
+  $('#contact-form').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+      // handle the invalid form...
+      console.log("invalid form");
+    } else {
+      e.preventDefault();
+      $("#latInput").val(lat);
+      $("#lngInput").val(lng);
+      var posting = $.post('/contacts/save', $("#contact-form").serialize());
+      
+      posting.done(function( data ) {
+        console.log(data);
+        //$( "#result" ).empty().append( content );
+      });
+    }
   });
 
-
-});
+}); 
 
 google.maps.event.addDomListener(window, 'load', initialize);

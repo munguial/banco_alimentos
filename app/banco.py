@@ -22,7 +22,12 @@ def index():
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
-    print request.form
+
+    f = request.form
+    for key in f.keys():
+        for value in f.getlist(key):
+            print key,":",value
+
     phone1 = request.form['phone1']
     phone2 = request.form['phone2']
     address = request.form['address']
@@ -30,16 +35,19 @@ def saveContact():
     lat = request.form['lat']
     lng = request.form['lng']
 
-    point_of_contact = Contact(institution=test_inst1, latitude=lat, longitude=lng, address=address, telephone1=phone1, telephone2=phone2, notas=notes)
-    session.add(point_of_contact)
-    session.commit()
+    #point_of_contact = Contact(institution=test_inst1, latitude=lat, longitude=lng, address=address, telephone1=phone1, telephone2=phone2, notas=notes)
+    #session.add(point_of_contact)
+    #session.commit()
 
     return "success"
+
 
 @app.route('/home')
 def home():
     if request.method == 'GET':
-        return render_template('home.html')
+        items = session.query(TagName).all()
+        tags=[i.serialize for i in items]
+        return render_template('home.html', tags=tags)
 
 @app.route('/search')
 def search():

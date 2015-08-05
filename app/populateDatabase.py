@@ -42,34 +42,34 @@ session.add(test_inst5)
 
 
 
-contact1 = Contact(institution=test_inst1, latitude=20.704702, longitude=-103.376477, address="De las Américas 1608, Country Club, 44610 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 1")
+contact1 = Contact(institution=test_inst1, name="contacto 1", latitude=20.704702, longitude=-103.376477, address="De las Américas 1608, Country Club, 44610 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com", notas="punto de contacto de la institucion de prueba 1")
 session.add(contact1)
 
-contact2 = Contact(institution=test_inst1, latitude=20.646173, longitude=-103.352513, address="Calle 5 179, 44440 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 1")
+contact2 = Contact(institution=test_inst1, name="contacto 2", latitude=20.646173, longitude=-103.352513, address="Calle 5 179, 44440 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 1")
 session.add(contact2)
 
-contact3 = Contact(institution=test_inst2, latitude=20.650698, longitude=-103.220313, address="Av de las Praderas, Rancho de La Cruz, Coyula, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 2") 
+contact3 = Contact(institution=test_inst2, name="contacto 3", latitude=20.650698, longitude=-103.220313, address="Av de las Praderas, Rancho de La Cruz, Coyula, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 2") 
 session.add(contact3)
 
-contact4 = Contact(institution=test_inst2, latitude=20.506119, longitude=-103.170030, address="Juanacatlán Centro, Juanacatlán, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 2")
+contact4 = Contact(institution=test_inst2, name="contacto 4", latitude=20.506119, longitude=-103.170030, address="Juanacatlán Centro, Juanacatlán, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 2")
 session.add(contact4)
 
-contact5 = Contact(institution=test_inst3, latitude=18.539734, longitude=-99.554679, address="Juliantla, Gro.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 3")
+contact5 = Contact(institution=test_inst3, name="contacto 5", latitude=18.539734, longitude=-99.554679, address="Juliantla, Gro.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 3")
 session.add(contact5)
 
-contact6 = Contact(institution=test_inst3, latitude=20.672569, longitude=-102.570216, address="Calle Pedro Moreno 146A, San José de Gracia, Jal.", telephone1="3325487456", telephone2="32546898745",notas="punto de contacto de la institucion de prueba 3")
+contact6 = Contact(institution=test_inst3, name="contacto 6", latitude=20.672569, longitude=-102.570216, address="Calle Pedro Moreno 146A, San José de Gracia, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com", notas="punto de contacto de la institucion de prueba 3")
 session.add(contact6)
 
-contact7 = Contact(institution=test_inst4, latitude=22.145660, longitude=-102.412831, address="Juan Hernández Loera 309, 20500 San José de Gracia, Ags.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 4")
+contact7 = Contact(institution=test_inst4, name="contacto 7", latitude=22.145660, longitude=-102.412831, address="Juan Hernández Loera 309, 20500 San José de Gracia, Ags.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 4")
 session.add(contact7)
 
-contact8 = Contact(institution=test_inst4, latitude=21.924705, longitude=-102.283652, address="Pozo del Oro 112, Aguascalientes, Ags.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 4")
+contact8 = Contact(institution=test_inst4, name="contacto 8", latitude=21.924705, longitude=-102.283652, address="Pozo del Oro 112, Aguascalientes, Ags.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 4")
 session.add(contact8)
 
-contact9 = Contact(institution=test_inst5, latitude=21.878277, longitude=-102.249852, address="Las Cumbres 701, Aguascalientes, Ags.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 5")
+contact9 = Contact(institution=test_inst5, name="contacto 9", latitude=21.878277, longitude=-102.249852, address="Las Cumbres 701, Aguascalientes, Ags.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 5")
 session.add(contact9)
 
-contact10 = Contact(institution=test_inst5, latitude=20.709214, longitude=-103.410084, address="cartelera, Real de Acueducto, Puerta de Hierro, 45116 Zapopan, Jal.", telephone1="3325487456", telephone2="32546898745", notas="punto de contacto de la institucion de prueba 5") 
+contact10 = Contact(institution=test_inst5, name="contacto 10", latitude=20.709214, longitude=-103.410084, address="cartelera, Real de Acueducto, Puerta de Hierro, 45116 Zapopan, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 5") 
 session.add(contact10)
 
 
