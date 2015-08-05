@@ -33,10 +33,10 @@
   width: 345px;
 }
 
-.verticalLine{
+/*.verticalLine{
   border-left: thick solid #333;
 
-}
+}*/
 
 .label {
   line-height: 25px;
@@ -92,6 +92,10 @@
     background-color: #FFFFFF;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
    
+}
+
+.btn{
+  margin-bottom: 5px; 
 }
 
 #save-button {

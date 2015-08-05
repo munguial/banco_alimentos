@@ -2,7 +2,7 @@ var markers = [];
 var map;
 var lat;
 var lng;
-var HTMLtag = "<a class='label label-default'>%data%</a>";
+var HTMLcontact = "<div class='list-group'><a href='#' class='list-group-item list-group-item-success'><h4 class='list-group-item-heading'>%DATAHEAD%</h4><p class='list-group-item-text'>%DATA%</p></div></div>";
 
 function initialize() {
 
@@ -125,6 +125,13 @@ $(document).ready(function() {
     }
   });
 
+  $('#registeredContacts').on('mouseenter', '.list-group-item', function(){
+    $(this).addClass('active');
+  });
+  $('#registeredContacts').on('mouseleave', '.list-group-item', function(){
+    $(this).removeClass('active');
+  });
+
   $('#contact-form').validator().on('submit', function (e) {
     if (e.isDefaultPrevented()) {
       // handle the invalid form...
@@ -136,12 +143,37 @@ $(document).ready(function() {
       var posting = $.post('/contacts/save', $("#contact-form").serialize());
       
       posting.done(function( data ) {
-        console.log(data);
-        //$( "#result" ).empty().append( content );
+        if(data === 'success'){
+          clearFormFields();
+          $("#result").text("PUNTO DE CONTACTO GUARDADO CORRECTAMENTE");
+
+          $.get("/contacts", function(data, status){
+            if(status === 'success') {
+              displayContacts(data.items);
+            }
+          });
+
+        }
       });
     }
   });
-
 }); 
+
+function displayContacts(items) {
+  $("#registeredContacts").empty();
+  for(var i = 0; i < items.length; i++) {
+    var HTMLstring = HTMLcontact.replace("%DATAHEAD%", items[i].name).replace("%DATA%", items[i].address);
+    $("#registeredContacts").append(HTMLstring);
+  }
+}
+
+function clearFormFields(){
+  $(":input").not("#pac-input").not(':hidden').val('');
+  $(".checkbox").each(function(i){
+    if($(this).prop('checked')){
+      $(this).click();
+    }
+  });
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);

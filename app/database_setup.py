@@ -34,6 +34,22 @@ class Contact(Base):
     url = Column(String(512))
     notas = Column(String(2000))
 
+    @property
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "lat" : str(self.latitude),
+            "lng" : str(self.longitude),
+            "address" : self.address,
+            "phone1" : self.telephone1,
+            "phone2" : self.telephone2,
+            "email" : self.email,
+            "url" : self.url,
+            "notes" : self.notas
+        }
+
+
 class TagName(Base):
     __tablename__ = 'tag_names'
     id = Column(Integer, primary_key=True)
