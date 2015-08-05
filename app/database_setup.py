@@ -24,6 +24,7 @@ class Contact(Base):
     id = Column(Integer, primary_key=True)
     inst_id = Column(Integer, ForeignKey('institutions.id'))
     institution = relationship(Institution)
+    name = Column(String(100), nullable=False)
     latitude = Column(Float(10,6), nullable=False)
     longitude = Column(Float(10,6), nullable=False)
     address = Column(String(250))
