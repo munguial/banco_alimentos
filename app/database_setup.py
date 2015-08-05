@@ -33,8 +33,6 @@ class Contact(Base):
     email = Column(String(255))
     url = Column(String(512))
     notas = Column(String(2000))
-    url = Column(String(50))
-    email = Column(String(50))
 
 class TagName(Base):
     __tablename__ = 'tag_names'
