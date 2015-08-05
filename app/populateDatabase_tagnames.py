@@ -105,3 +105,5 @@ tag_name27 = TagName(name="Diversidad Sexual")
 session.add(tag_name27)
 
 print "Records inserted."
+
+session.commit()
