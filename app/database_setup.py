@@ -67,9 +67,9 @@ class Tag(Base):
     __tablename__ = 'tags'
     id = Column(Integer, primary_key=True)
     contact_id = Column(Integer, ForeignKey('contacts.id'))
-    contact = relationship(Contact)
+    contact = relationship("Contact", foreign_keys=[contact_id])
     tag_name_id = Column(Integer, ForeignKey('tag_names.id'))
-    tag_name = relationship(TagName)
+    tag_name = relationship("TagName", foreign_keys=[tag_name_id])
 
 
 engine = create_engine(os.environ["DATABASE_URL"])

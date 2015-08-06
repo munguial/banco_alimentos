@@ -156,7 +156,7 @@ session.add(tag_name27)
 tag1 = Tag(contact = contact1, tag_name = tag_name4)
 session.add(tag1)
 
-tag2 = Tag(contact = contact1, tag_name = tag_name4)
+tag2 = Tag(contact = contact1, tag_name = tag_name1)
 session.add(tag2)
 
 tag3 = Tag(contact = contact2, tag_name = tag_name4)
@@ -183,7 +183,7 @@ session.add(tag9)
 tag10 = Tag(contact = contact6, tag_name = tag_name1)
 session.add(tag10)
 
-tag11 = Tag(contact = contact6, tag_name = tag_name1)
+tag11 = Tag(contact = contact6, tag_name = tag_name5)
 session.add(tag11)
 
 
