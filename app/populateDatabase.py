@@ -5,12 +5,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
 
-from database_setup import Base, Institution, Contact, TagName, Tag
+from flask.ext.sqlalchemy import SQLAlchemy
+
+from databaseSecurity import Institution, Contact, TagName, Tag, User
 
 engine = create_engine(os.environ["DATABASE_URL"])
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
-Base.metadata.bind = engine
+
 
 
 DBSession = sessionmaker(bind=engine)
@@ -23,6 +25,7 @@ DBSession = sessionmaker(bind=engine)
 # session.rollback()
 session = DBSession()
 
+db = SQLAlchemy()
 
 
 test_inst1 = Institution(name="Institucion de prueba 1", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion1@prueba.com", url="institucion1.com")

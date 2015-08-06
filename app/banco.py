@@ -4,7 +4,15 @@ from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Contact, Institution, TagName, Tag
 from flask.ext.heroku import Heroku
+from flask_security import (
+    Security,
+    SQLAlchemyUserDatastore,
+    UserMixin,
+    RoleMixin,
+    login_required)
+from flask_security.utils import encrypt_password
 import os
+
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -16,9 +24,24 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        usr = request.form['user']
+        passwd = request.form['passwd']
+        print usr
+        print passwd
+        return render_template('login.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/demo')
+def demo():
+    return ('hola mundo')    
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():

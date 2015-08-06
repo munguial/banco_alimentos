@@ -4,8 +4,20 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask_security import (
+    Security,
+    SQLAlchemyUserDatastore,
+    UserMixin,
+    RoleMixin,
+    login_required)
+from flask_security.utils import encrypt_password
+from flask import Flask
 
 Base = declarative_base()
+db = SQLAlchemy()
+app = Flask(__name__)
+
 
 
 class Institution(Base):
@@ -44,6 +56,10 @@ class Tag(Base):
     contact = relationship(Contact)
     tag_name_id = Column(Integer, ForeignKey('tag_names.id'))
     tag_name = relationship(TagName)
+
+
+
+
 
 
 engine = create_engine(os.environ["DATABASE_URL"])

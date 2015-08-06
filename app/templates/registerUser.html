@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco de alimentos</title>
+  <link rel="stylesheet" src="https://normalize-css.googlecode.com/svn/trunk/normalize.css" />
+   <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="static/css/index.css">
+
+  </head>
+  <body>
+    <form id='credentials-form' method="POST" class="form-horizontal">
+      <div class="col-xs-2">
+        Registrar Usuario:
+        <div class="form-group"></br>
+           Usuario: <input type="text" name="user" class="form-control" placeholder="Usuario" id="user"><br>
+           Contraseña: <input type="password" name="passwd" class="form-control" placeholder="Contraseña" id="passwd">
+          Confirmar Contraseña: <input type="password2" name="passwd2" class="form-control" placeholder="Contraseña" id="passwd2">
+       </div>
+       <select style="display:block;" id="customDropdown">
+      {% for c in dropdown %}
+        {% if c.id == 1 %}
+          <option id="{{ c.name }}" name="{{ c.name }}" SELECTED>{{ c.name }}</option>
+        {% else %}
+          <option>{{ c.name }}</option>
+        {% endif %}
+
+      {% endfor %}
+    </select>
+
+       <input type="checkbox">Administrador:&nbsp;</input></br>
+
+       <button type="submit" class="btn btn-primary">Entrar</button>
+    </div>
+
+  </form>
+  </body>
+</html>
