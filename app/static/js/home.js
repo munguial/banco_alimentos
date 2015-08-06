@@ -8,7 +8,8 @@ function initialize() {
 
   map = new google.maps.Map(document.getElementById('map-div'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-	  zoom: 11
+	  zoom: 11,
+    scrollwheel: false
   });
 
   var input = (document.getElementById('pac-input'));

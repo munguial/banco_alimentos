@@ -57,8 +57,8 @@ function initialize() {
     var bounds = new google.maps.LatLngBounds();
 
     var place = places[0];
-    var lat = place.geometry.location.A;
-    var lng = place.geometry.location.F;
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
 
     placeMarker(place.geometry.location, map, place.title, true, 0);
     map.setCenter(place.geometry.location);
