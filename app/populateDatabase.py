@@ -153,28 +153,28 @@ tag_name27 = TagName(name="Diversidad Sexual")
 session.add(tag_name27)
 
 
-tag1 = Tag(contact = contact1, tag_name = tag_name4)
+tag1 = Tag(contact = contact1, tag_name = tag_name18)
 session.add(tag1)
 
-tag2 = Tag(contact = contact1, tag_name = tag_name1)
+tag2 = Tag(contact = contact1, tag_name = tag_name22)
 session.add(tag2)
 
-tag3 = Tag(contact = contact2, tag_name = tag_name4)
+tag3 = Tag(contact = contact2, tag_name = tag_name18)
 session.add(tag3)
 
-tag4 = Tag(contact = contact2, tag_name = tag_name5)
+tag4 = Tag(contact = contact2, tag_name = tag_name22)
 session.add(tag4)
 
-tag5 = Tag(contact = contact3, tag_name = tag_name5)
+tag5 = Tag(contact = contact3, tag_name = tag_name18)
 session.add(tag5)
 
-tag6 = Tag(contact = contact3, tag_name = tag_name3)
+tag6 = Tag(contact = contact3, tag_name = tag_name22)
 session.add(tag6)
 
-tag7 = Tag(contact = contact3, tag_name = tag_name2)
+tag7 = Tag(contact = contact3, tag_name = tag_name18)
 session.add(tag7)
 
-tag8 = Tag(contact = contact4, tag_name = tag_name2)
+tag8 = Tag(contact = contact3, tag_name = tag_name22)
 session.add(tag8)
 
 tag9 = Tag(contact = contact5, tag_name = tag_name2)
