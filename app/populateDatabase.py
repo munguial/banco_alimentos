@@ -25,10 +25,10 @@ session = DBSession()
 
 
 
-test_inst1 = Institution(name="Institucion de prueba 1", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion1@prueba.com", url="institucion1.com")
+test_inst1 = Institution(name="Banco de alimentos", address="Rinconada del Agua Nº 2811, Colonia Rinconada del Bosque, C.P. 44530, Guadalajara, Jalisco", description="Asociación civil mexicana sin fines de lucro que opera desde 1995 y se dedica al rescate de alimento para combatir el hambre y mejorar la nutrición de la población vulnerable en México.", telephone1="3331620330", telephone2="8000102622", email="", url="institucion1.com")
 session.add(test_inst1)
 
-test_inst2 = Institution(name="Institucion de prueba 2", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion2@prueba.com", url="institucion2.com")
+test_inst2 = Institution(name="Institucion de prueba 2", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion2@prueba.com", url="http://bancosdealimentos.org.mx/")
 session.add(test_inst2)
 
 test_inst3 = Institution(name="Institucion de prueba 3", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion3@prueba.com", url="institucion3.com")
@@ -40,18 +40,16 @@ session.add(test_inst4)
 test_inst5 = Institution(name="Institucion de prueba 5", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion5@prueba.com", url="institucion5.com")
 session.add(test_inst5)
 
-
-
-contact1 = Contact(institution=test_inst1, name="contacto 1", latitude=20.704702, longitude=-103.376477, address="De las Américas 1608, Country Club, 44610 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com", notas="punto de contacto de la institucion de prueba 1")
+contact1 = Contact(institution=test_inst1, name="Banco de Alimentos de Morelia", latitude=19.720515, longitude=-101.166866, address="Felipe Paramo #600 Col. Constituyentes de Querétaro, C.P. 58219, Morelia, Mich.", telephone1="4433230107", telephone2="4433230292", url="http://www.bamorelia.org.mx/", email="comunicacion@bamorelia.org.mx", notas="El Banco de Alimentos inicia sus operaciones en la ciudad de Morelia bajo la iniciativa del Excmo. Sr. Arzobispo Alberto Suárez y empresarios de la ciudad de Morelia, realizando la función de acopio, selección y distribución de alimento (perecedero y no perecedero) entregado en donación para hacerlo llegar en forma organizada a las zonas urbanas y conurbadas marginadas de Morelia, fungiendo como un puente entre aquellos que tienen y los que más necesitan.")
 session.add(contact1)
 
-contact2 = Contact(institution=test_inst1, name="contacto 2", latitude=20.646173, longitude=-103.352513, address="Calle 5 179, 44440 Guadalajara, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 1")
+contact2 = Contact(institution=test_inst1, name="Alimento para los más necesitados de León, A.C.", latitude=21.088959, longitude=-101.644865, address="Boulevard Miguel de Cervantes Saavedra No.8701-A, Col. Colinas de Santa Julia, C.P. 36530, León, Gto.", telephone1="4777727990", telephone2="4777727991", url="http://www.bancodealimentosleon.org.mx/", email="logistica@bancodealimentosleon.org.mx",  notas="Nuestra labor implica la atención alimentaria de niños, adultos mayores, jóvenes y mujeres amas de casa que carecen de los recursos económicos mínimos y suficientes para satisfacer las necesidades básicas de sus familias.")
 session.add(contact2)
 
-contact3 = Contact(institution=test_inst2, name="contacto 3", latitude=20.650698, longitude=-103.220313, address="Av de las Praderas, Rancho de La Cruz, Coyula, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 2")
+contact3 = Contact(institution=test_inst1, name="Banco de Alimentos de Veracruz", latitude=19.176941, longitude= -96.154438, address="Calle 16 864 Pocitos y Rivera 91729 Veracruz, Ver.", telephone1="2291781714", telephone2="2291781743", url="http://www.bav.org.mx/", email="COMUNICACION@BAV.ORG.MX",  notas="Contribuir a reducir el hambre y la desnutrición, distribuyendo adecuadamente productos alimenticios que donan productores, comerciantes y personas altruistas, para alcanzar la promoción humana en los aspectos personal, espiritual y comunitario.")
 session.add(contact3)
 
-contact4 = Contact(institution=test_inst2, name="contacto 4", latitude=20.506119, longitude=-103.170030, address="Juanacatlán Centro, Juanacatlán, Jal.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 2")
+contact4 = Contact(institution=test_inst1, name="Hogar de la Misericordia de Torreón AC", latitude=20.506119, longitude=-103.170030, address="Av Torre Latino 1000 Residencial las Torres Sector I, C.P. 27085, Torreón, Coah.", telephone1="6621188152", telephone2="6622607203", url="http://www.oscscoahuila.mx/banco-de-alimentos-de-saltillo-ac", email="hmisericordiat_2010@hotmail.com",  notas="Combatir el hambre, recuperando los productos que son regularmente desperdiciados por estar ligeramente dañados en su presentación pero en buenas condiciones de consumo, haciéndolos llegar a la gente necesitada a través de instituciones de beneficencia y/o directamente por centros de distribución del Banco de Alimentos de Saltillo.")
 session.add(contact4)
 
 contact5 = Contact(institution=test_inst3, name="contacto 5", latitude=18.539734, longitude=-99.554679, address="Juliantla, Gro.", telephone1="3325487456", telephone2="32546898745", url="hola.com", email="hola@hola.com",  notas="punto de contacto de la institucion de prueba 3")
