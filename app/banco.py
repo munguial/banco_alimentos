@@ -18,7 +18,9 @@ session = DBSession()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    items = session.query(TagName).all()
+    tags=[i.serialize for i in items]       
+    return render_template('index.html', tags=tags)
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():

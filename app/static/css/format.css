@@ -82,11 +82,10 @@
 
 .checkWrapper
 {
-    height: 30px;
-    width: 180px;
+    height: 40px;
+    border-bottom: 15px;
+    width: 190px;
     float: left;
-
-
 }
 
 #leftMenu
