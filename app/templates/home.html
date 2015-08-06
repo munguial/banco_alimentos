@@ -10,74 +10,151 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="static/css/home.css">
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
-  <script src="static/js/home.js"></script>
+  <script type="text/javascript" src="static/js/home.js"></script>
+  <script type="text/javascript" src="static/js/bootsnipp.js"></script>
+  <script type="text/javascript" src="static/js/validator.js"></script>
 
 </head>
 <body>
     <div id="container" class="container-fluid">
-      <div class="row">
-        <div class="header">
-          <h3>Home</h3>
+      <div class="row header">
+        <div class="col-xs-2">
+          <img src="static/images/logo2.png" class="img-responsive">
+        </div>
+        <div class="col-xs-10">
+          <h3>BIENVENIDO</h3>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
-          Registra tus puntos de contacto
-        </div>
-      </div>
-      <div class="row">
-        <form id='contact-form' action="/" class="form-horizontal">
-          <div class="col-xs-8">
-          <div class="col-xs-6">
-              <div class="form-group">
-                  <label for="telephone" class="control-label col-xs-3">Teléfono de contacto</label>
-                  <div class="col-xs-9">
-                      <input type="text" name="phone1" class="form-control" placeholder="Teléfono" id="inputPhone">
-                  </div>
+        <div class="col-xs-8">
+          <div class="row">
+            <div class="col-xs-12 header-2">
+              REGISTRA UN PUNTO DE CONTACTO
+            </div>
+          </div>
+
+          <form id='contact-form' data-toggle="validator" role="form">
+
+            <!-- general info left -->
+            <div class="col-xs-6">
+              
+            <div class="col-xs-12">
+                <div class="form-group form-item">
+                    <label for="name" class="control-label">NOMBRE</label>
+                    <input type="text" name="name" class="form-control" placeholder="Nombre" data-error="Por favor introduzca un nombre para este punto de contacto" id="inputName" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group form-item">
+                    <label for="email" class="control-label">EMAIL</label>
+                    <input type="email" class="form-control" name="email" data-error="El correo electrónico es inválido" id="inputEmail" placeholder="Correo electrónico">
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group form-item">
+                    <label for="notas" class="control-label">NOTAS</label>
+                    <textarea class="form-control" name="notes" rows="3" id="inputNotes" placeholder="Notas adicionales acerca de este punto de contacto" ></textarea>
+                </div>
+
+            </div>
+            
+          </div>
+          
+
+            <!-- General info right-->
+            <div class="col-xs-6">
+
+              <div class="form-group form-item">
+                  <label for="telephone" class="control-label">TELÉFONO DE CONTACTO</label>
+                  <input type="tel" data-minlength="10" pattern="[0-9]{10}" name="phone1" data-error="Ingresa un número de teléfono de 10 dígitos sin espacios ni paréntesis" class="form-control" placeholder="Teléfono" id="inputPhone" required>
+                  <div class="help-block with-errors"></div>
               </div>
 
-              <div class="form-group">
-                  <label for="telephone2" class="control-label col-xs-3">Teléfono alternativo</label>
-                  <div class="col-xs-9">
-                      <input type="text" class="form-control" name="phone2" id="inputPhone2" placeholder="Teléfono alterno">
-                  </div>
+              <div class="form-group form-item">
+                  <label for="telephone2" class="control-label">TELÉFONO ALTERNATIVO</label>
+                  <input type="tel" data-minlength="10" pattern="[0-9]{10}" class="form-control" name="phone2" data-error="Ingresa un número de teléfono de 10 dígitos sin espacios ni paréntesis" id="inputPhone2" placeholder="Teléfono alterno">
+                  <div class="help-block with-errors"></div>
               </div>
 
-              <div class="form-group">
-                  <label for="notas" class="control-label col-xs-3">Notas</label>
-                  <div class="col-xs-9">
-                      <textarea class="form-control" name="notes" id="inputNotes" placeholder="Notas adicionales acerca de este punto de contacto" ></textarea>
-                  </div>
+              <div class="form-group form-item">
+                  <label for="url" class="control-label">PÁGINA WEB</label>
+                  <input type="url" class="form-control" name="url" id="inputUrl" placeholder="URL">
               </div>
 
-              <div class="form-group">
-                <label for="address" class="control-label col-xs-3">Ubicación</label>
-                <div class="col-xs-9">
-                  <input id="pac-input" class="form-control" type="text" name="address" placeholder="Dirección del punto de contacto"/>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group form-item">
+                  <label for="address" class="control-label">DIRECCIÓN</label>
+                  <input id="pac-input" class="form-control" type="text" name="address" placeholder="Dirección del punto de contacto" required/>
                   Ingresa la dirección del punto de contacto, si no aparece correctamente ubicado en el mapa entonces arrastra el globo rojo al punto correcto
                 </div>
               </div>
-              <div class="form-group">
-                  <div class="col-xs-offset-6 col-xs-5">
-                      <button type="submit" class="btn btn-primary">Guardar</button>
-                  </div>
+            </div>
+
+            <!-- MAP-DIV -->
+            <div class="row">
+              <div class="col-xs-12 form-group">
+                <div id="map-div"></div>
               </div>
+            </div>
+
+            <!--  TAGS -->
+            <div class="form-group form-item">
+              <label for="tags" class="control-label">SERVICIO(S) QUE OFRECES EN TU PUNTO DE CONTACTO:</label>
+              <div id="tags-div">
+                {% for i in tags %}
+                  <span class="button-checkbox">
+                    <button type="button" class="btn btn-sm" data-color="success">{{i.name}}</button>
+                    <input type="checkbox" name="tag" value="{{i.id}}" class="hidden checkbox" />
+                  </span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="form-group" id="save-button">
+              <div class="col-xs-offset-3 col-xs-5">
+                  <button type="submit" class="btn btn-success btn-lg btn-block">Guardar</button>
+              </div>
+            </div>
+            <div class-"row">
+              <div class="col-xs-offset-3 col-xs-5" id="result"></div>
+            </div>
+            <input type="hidden" id="latInput" name="lat">
+            <input type="hidden" id="lngInput" name="lng">
+          </form>  
+
+        </div>
+        
+        <!-- Contacts list div -->
+        <div class="col-xs-4">
+          <div class="row">
+            <div class="col-xs-12 header-2">
+              LISTA DE CONTACTOS CREADOS
+            </div>
           </div>
-          <div class="col-xs-6">
-            <div class="form-group">
-                <div class="col-xs-12">
-                  <div id="map-div"></div>
-                </div>
+          <div class="row">
+            <div class="col-xs-12 verticalLine">
+              <div id="registeredContacts">
+                {% for i in contacts %}
+                  <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-success">
+                      <h4 class="list-group-item-heading">{{i.name}}</h4>
+                      <p class="list-group-item-text">{{i.address}}</p>
+                    </a>
+                  </div>
+                {% endfor %}
               </div>
+            </div>
           </div>
         </div>
-          <input type="hidden" id="latInput" name="lat">
-          <input type="hidden" id="lngInput" name="lng">
-        </form>
       </div>
+
+      <!-- Footer -->
       <div class="row">
-        <div class="col-xs-12">
-          <div id="registeredContacts"></div>
+        <div class="col-xs-12 footer">
+          
         </div>
       </div>
     </div>

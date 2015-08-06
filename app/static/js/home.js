@@ -2,12 +2,14 @@ var markers = [];
 var map;
 var lat;
 var lng;
+var HTMLcontact = "<div class='list-group'><a href='#' class='list-group-item list-group-item-success'><h4 class='list-group-item-heading'>%DATAHEAD%</h4><p class='list-group-item-text'>%DATA%</p></div></div>";
 
 function initialize() {
 
   map = new google.maps.Map(document.getElementById('map-div'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-	  zoom: 11
+	  zoom: 11,
+    scrollwheel: false
   });
 
   var input = (document.getElementById('pac-input'));
@@ -65,8 +67,8 @@ function initialize() {
     var bounds = new google.maps.LatLngBounds();
 
     var place = places[0];
-    lat = place.geometry.location.A;
-    lng = place.geometry.location.F;
+    lat = place.geometry.location.lat();
+    lng = place.geometry.location.lng();
 
     placeMarker(place.geometry.location, map, place.title);
     map.setCenter(place.geometry.location);
@@ -114,6 +116,7 @@ function initialize() {
   }
 }
 
+
 $(document).ready(function() {
 
   $(window).keydown(function(event){
@@ -123,21 +126,55 @@ $(document).ready(function() {
     }
   });
 
-
-  $("#contact-form").submit(function( event ) {
-    event.preventDefault();
-    $("#latInput").val(lat);
-    $("#lngInput").val(lng);
-    var posting = $.post('/contacts/save', $("#contact-form").serialize());
-    
-    posting.done(function( data ) {
-      console.log(data);
-      //$( "#result" ).empty().append( content );
-    });
-
+  $('#registeredContacts').on('mouseenter', '.list-group-item', function(){
+    $(this).addClass('active');
+  });
+  $('#registeredContacts').on('mouseleave', '.list-group-item', function(){
+    $(this).removeClass('active');
   });
 
+  $('#contact-form').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+      // handle the invalid form...
+      console.log("invalid form");
+    } else {
+      e.preventDefault();
+      $("#latInput").val(lat);
+      $("#lngInput").val(lng);
+      var posting = $.post('/contacts/save', $("#contact-form").serialize());
+      
+      posting.done(function( data ) {
+        if(data === 'success'){
+          clearFormFields();
+          $("#result").text("PUNTO DE CONTACTO GUARDADO CORRECTAMENTE");
 
-});
+          $.get("/contacts", function(data, status){
+            if(status === 'success') {
+              displayContacts(data.items);
+            }
+          });
+
+        }
+      });
+    }
+  });
+}); 
+
+function displayContacts(items) {
+  $("#registeredContacts").empty();
+  for(var i = 0; i < items.length; i++) {
+    var HTMLstring = HTMLcontact.replace("%DATAHEAD%", items[i].name).replace("%DATA%", items[i].address);
+    $("#registeredContacts").append(HTMLstring);
+  }
+}
+
+function clearFormFields(){
+  $(":input").not("#pac-input").not(':hidden').val('');
+  $(".checkbox").each(function(i){
+    if($(this).prop('checked')){
+      $(this).click();
+    }
+  });
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);

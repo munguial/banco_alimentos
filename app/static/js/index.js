@@ -1,16 +1,20 @@
 var radius = 10;
 var markers = [];
 var map;
-var searchResultHTML = "<div class='resultEntry'></div></br>";
-var HTMLcontactName = "<div class'contactName'>%data%</div>";
-var HTMLcontactAddress = "<div class'contactAddress'>%data%</div>";
-var HTMLcontactNotes = "<div class'contactNotes'>%data%</div>";
+
+var searchResultHTML = "<dt class='listBorder resultEntry'></dt>";
+var institutionNameHTML = "<div>%data%</div>";
+var contactNameHTML = "<div>%data%</div>";
+var addressHTML = "<div>%data%</div>";
+var HTMLtags = "<div class='tagsEntry'></div>";
+var HTMLtagEntry = "<span class='label label-default'>%DATA%</span>";
 
 function initialize() {
 
   map = new google.maps.Map(document.getElementById('map-div'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-	  zoom: 11
+	  zoom: 11,
+    scrollwheel: false
   });
 
   // Try HTML5 geolocation
@@ -18,7 +22,7 @@ function initialize() {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       map.setCenter(pos);
-      placeMarker(pos, map, "aquí estás", true);
+      placeMarker(pos, map, "aquí estás", true, 0);
       searchClosestContacts(pos.lat(), pos.lng(), radius);
     }, function() {
       //GeoLocation service failed
@@ -33,7 +37,7 @@ function initialize() {
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   var searchBox = new google.maps.places.SearchBox(
     /** @type {HTMLInputElement} */(input));
@@ -53,10 +57,10 @@ function initialize() {
     var bounds = new google.maps.LatLngBounds();
 
     var place = places[0];
-    var lat = place.geometry.location.A;
-    var lng = place.geometry.location.F;
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
 
-    placeMarker(place.geometry.location, map, place.title, true);
+    placeMarker(place.geometry.location, map, place.title, true, 0);
     map.setCenter(place.geometry.location);
     searchClosestContacts(lat, lng, radius);
   });
@@ -65,6 +69,7 @@ function initialize() {
     var url = "/search";
     $.get(url, {"lat":lat, "lng":lng, "radius":radius}, function(data, status){
       if(status === "success"){
+        //console.log(data.items);
         placePins(data.items);
         displayResults(data.items);
       }
@@ -72,20 +77,28 @@ function initialize() {
   }
 
   function displayResults(items){
-    $("#searchResults").empty();
+    $("#custom-counter").empty();
     for(var i = 0; i < items.length; i++){
-      $("#searchResults").append(searchResultHTML);
-      $(".resultEntry:last").append(HTMLcontactName.replace("%data%", items[i].name));
-      $(".resultEntry:last").append(HTMLcontactAddress.replace("%data%", items[i].address));
-      $(".resultEntry:last").append(HTMLcontactNotes.replace("%data%", items[i].notas));
+      $("#custom-counter").append(searchResultHTML);
+      $(".resultEntry:last").append(contactNameHTML.replace("%data%", items[i].c_name));
+      $(".resultEntry:last").append(institutionNameHTML.replace("%data%", items[i].name));
+      $(".resultEntry:last").append(addressHTML.replace("%data%", items[i].address));
+      if(items[i].tags != undefined && items[i].tags.length > 0){
+        $(".resultEntry:last").append(HTMLtags);
+      }
+      for(var x = 0; x < items[i].tags.length; x++){
+        $(".tagsEntry:last").append(HTMLtagEntry.replace("%DATA%", items[i].tags[x].name));
+      }
+
     }
+    $("#leftMenu").show("slow","swing", function(){ $("#leftMenuMin").hide(); });
   }
 
   function placePins(items){
     for(var i = 0; i < items.length; i++){
       console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
-      placeMarker(latlng, map, items[i].name, false);
+      placeMarker(latlng, map, items[i].name, false, i + 1);
     }
   }
 
@@ -119,17 +132,7 @@ function initialize() {
     }
   }
 
-  function placeMarker(position, map, title, isSetByUser) {
-    var image = {
-      url: 'static/images/icon.jpg',
-      // This marker is 20 pixels wide by 32 pixels tall.
-      size: new google.maps.Size(20, 32),
-      // The origin for this image is 0,0.
-      origin: new google.maps.Point(0,0),
-      // The anchor for this image is the base of the flagpole at 0,32.
-      anchor: new google.maps.Point(0, 32)
-    };
-
+  function placeMarker(position, map, title, isSetByUser, n) {
     var marker;
     if(isSetByUser) {
       marker = new google.maps.Marker({
@@ -152,12 +155,20 @@ function initialize() {
         position: position,
         map: map,
         animation: google.maps.Animation.DROP,
-        icon: "static/images/icon.png",
+        //icon: "static/images/icon.png",
+        icon : 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + n + '|1e90ff|000000',
         title: title
       });
     }
     markers.push(marker);
   }
 }
+
+$(document).ready(function(){
+  $("#filterBtn").click(function(){ $("#filterBox").toggle("slow","swing") } );
+  $("#busquedaBtn").click(function(){ $("#leftMenu").show("slow","swing", function(){ $("#leftMenuMin").hide(); })  } );
+  $("#collapse").click(function(){ $("#leftMenu").hide( function(){ $("#leftMenuMin").show("slow","swing"); }) } );
+  $("#maximize").click(function(){ $("#leftMenu").show( function(){ $("#leftMenuMin").hide()  ; }) } );
+});
 
 google.maps.event.addDomListener(window, 'load', initialize);
