@@ -1,0 +1,206 @@
+
+
+#header
+{
+    color: white;
+    background-color: rgb(63,164,63);
+    height: 80PX;
+    font-size: 30px;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    padding:20px 
+}
+
+#form
+{
+    
+    background-color: #E8EAE4;
+    height: 60PX;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    padding: 10px;
+}
+
+#filterBtn
+{
+    color: #607D8B;
+    background-color: #CFD8DC;
+    width: 143px;
+    border-color: 90A4AE;
+    font-size: 13px; 
+
+}
+
+#serachField
+{
+    color: #607D8B;
+    background-color: #CFD8DC;
+    width: 300px;
+    border-color: 90A4AE;
+    font-size: 13px; 
+
+}
+
+#busquedaBtn
+{
+    color: white;
+    border-color: #827717;
+    background-color: rgb(158,156,49);
+    width: 143px;
+    font-size: 13px; 
+}
+
+#chosenFilterBtn
+{
+    color: #CFD8DC;
+    border: #90A4AE;
+    background-color: #111111;
+    width: 170px;
+    opacity: 1;
+}
+
+#mapWrapper
+{
+    background-color: #999999;
+    width: 100%;
+    height:100%;
+    
+}
+
+#filterBox
+{
+    height: 170PX;
+    padding: 20px;
+    opacity: 0.8;
+    z-index: 10;
+    display: none;
+
+
+}
+
+.checkWrapper
+{
+    height: 30px;
+    width: 180px;
+    float: left;
+
+
+}
+
+#leftMenu
+{
+    background-color: #455A64;
+    height: 100%;
+    opacity: 0.7;
+    z-index: 10;
+    color: white;
+    position: absolute;
+    display: none;
+    padding-right: 0px;
+    overflow-y: scroll;
+}
+
+#leftMenuMin
+{
+    background-color: #455A64;
+    height: 60px;
+    opacity: 0.7;
+    position: absolute;
+    z-index: 11;
+    color: white;
+    display: none;
+    padding-right: 0px;
+    padding-top: 2px;
+
+}
+
+#collapse
+{
+    background-color: #111111;
+    height: 30px;
+    z-index: 11;
+    text-align: right;
+    width: 100%;
+    padding-right: 2px;
+}
+
+
+#maximize
+{
+    height: 30px;
+    z-index: 11;
+    text-align: center;
+    width: 100%;
+}
+
+#minNumber
+{
+    height: 30px;
+    z-index: 11;
+    text-align: center;
+    width: 100%;
+    border-top:1px solid #d0d0d0;
+    font-size: 20px;
+}
+
+
+#title
+{
+    background-color: #111111;
+    height: 50px;
+    z-index: 11;
+    text-align: center;
+    width: 100%;
+    font-size: 24px;
+}
+
+
+
+.custom-counter {
+			counter-reset: my-badass-counter;
+            padding: 10px;
+		}
+		.custom-counter dt {
+			position: relative;
+			font:13px Georgia;
+			padding: 4px 0 10px 0;
+		}
+		.custom-counter dt:before {
+			content: counter(my-badass-counter);
+			counter-increment: my-badass-counter;
+			position: absolute;
+			left: 0;
+			top: 0;
+			font: bold 50px/1 Sans-Serif;
+
+		}
+		.custom-counter dd {
+			margin: 0 0 50px 0;
+		}	
+		.custom-counter dt, .faq dd {
+			padding-left: 60px;
+            
+		}
+
+.listBorder
+{
+  border-top:1px solid #d0d0d0;
+}
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+

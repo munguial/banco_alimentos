@@ -79,19 +79,35 @@ def search():
     if not lat or not lng:
         return
 
+    #magicQuery = text(
+    #    """SELECT * FROM
+    #        (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url, 
+    #                (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
+    #         FROM contacts AS c INNER JOIN institutions AS i
+    #         ON c.inst_id = i.id) AS t1
+    #    WHERE distance < :r """)
+
     magicQuery = text(
         """SELECT * FROM
-            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url, 
+            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url,
                     (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
-             FROM contacts AS c INNER JOIN institutions AS i
-             ON c.inst_id = i.id) AS t1
+            FROM contacts AS c 
+            INNER JOIN institutions AS i
+            ON c.inst_id = i.id
+            ) AS t1
         WHERE distance < :r """)
 
     items = session.execute(magicQuery, {"lat":lat, "lng":lng, "r":rad})
     
     resultset = []
     for row in items:
-        resultset.append(dict(row))
+        d = dict(row)
+        #Adding tags for each contact
+        tags_rows = session.execute(text("SELECT * FROM tags INNER JOIN tag_names on (tags.tag_name_id = tag_names.id) WHERE tags.contact_id =:contact_id"), {"contact_id": d['id']})
+        d['tags'] = [dict(i) for i in tags_rows]
+
+        resultset.append(d)
+
 
     res = jsonify(items=resultset)
     return res
