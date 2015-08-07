@@ -5,12 +5,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
 
-from database_setup import Base, Institution, Contact, TagName, Tag
+from flask.ext.sqlalchemy import SQLAlchemy
+
+from databaseSecurity import Institution, Contact, TagName, Tag, User
 
 engine = create_engine(os.environ["DATABASE_URL"])
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
-Base.metadata.bind = engine
+
 
 
 DBSession = sessionmaker(bind=engine)
@@ -23,6 +25,7 @@ DBSession = sessionmaker(bind=engine)
 # session.rollback()
 session = DBSession()
 
+db = SQLAlchemy()
 
 
 test_inst1 = Institution(name="Banco de alimentos", address="Rinconada del Agua Nº 2811, Colonia Rinconada del Bosque, C.P. 44530, Guadalajara, Jalisco", description="Asociación civil mexicana sin fines de lucro que opera desde 1995 y se dedica al rescate de alimento para combatir el hambre y mejorar la nutrición de la población vulnerable en México.", telephone1="3331620330", telephone2="8000102622", email="", url="institucion1.com")

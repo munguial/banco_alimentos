@@ -2,25 +2,83 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Contact, Institution, TagName, Tag
+from database_setup import Contact, Institution, TagName, Tag, User
 from flask.ext.heroku import Heroku
+from flask_security import (
+    Security,
+    SQLAlchemyUserDatastore,
+    UserMixin,
+    RoleMixin,
+    login_required)
+from flask_security.utils import encrypt_password
 import os
+import bcrypt
+from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, UserMixin
+
+
 
 app = Flask(__name__)
 heroku = Heroku(app)
 
 engine = create_engine(os.environ["DATABASE_URL"])
-Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+app.config['SECRET_KEY'] = 'randomHashoneTwo'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+login_manager.login_message_category = "info"
+
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.get(id)
+
+
+@login_manager.user_loader
+def user_loader(user_id):
+    return User.query.get(user_id)
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        if current_user.is_authenticated():
+            return redirect('/home')
+        else:
+            return render_template('login.html')
+    else:
+        passwd = request.form['passwd'].encode('utf-8')
+        print bcrypt.hashpw(passwd, bcrypt.gensalt())
+        user =  User.query.filter_by(email=request.form['user']).first()
+    if (user):
+        hashed = user.password.encode('utf-8')
+        if(bcrypt.hashpw(passwd, hashed) == user.password):
+            login_user(user)
+            return redirect('/home')
+        else:
+            return render_template('login.html', error="email o contrasena incorrectos")
+    else:
+        return render_template('login.html', error="email o contrasena incorrectos")
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect('/')
 
 @app.route('/')
 def index():
     items = session.query(TagName).all()
     tags=[i.serialize for i in items]       
     return render_template('index.html', tags=tags)
+
+@app.route('/demo')
+def demo():
+    return ('hola mundo')    
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
@@ -60,6 +118,7 @@ def getContacts():
 
 
 @app.route('/home')
+@login_required
 def home():
     if request.method == 'GET':
         items = session.query(TagName).all()
