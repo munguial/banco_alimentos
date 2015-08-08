@@ -13,7 +13,7 @@ function initialize() {
 
   map = new google.maps.Map(document.getElementById('map-div'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-	  zoom: 11,
+	  zoom: 12,
     scrollwheel: false
   });
 

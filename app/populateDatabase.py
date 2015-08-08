@@ -190,6 +190,15 @@ tag11 = Tag(contact = contact6, tag_name = tag_name5)
 session.add(tag11)
 
 
+user1 = User(email = "user@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = true, inst_id = 1)
+session.add(user1)
+
+user2 = User(email = "user@institucion2.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = true, inst_id = 2)
+session.add(user2)
+
+user3 = User(email = "user@institucion3.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = true, inst_id = 3)
+session.add(user3)
+
 session.commit()
 
 print "Records inserted."
