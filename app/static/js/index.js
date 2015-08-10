@@ -1,6 +1,8 @@
 var radius = 10;
 var markers = [];
 var map;
+var results = {};
+var checked_tags = {}
 
 var searchResultHTML = "<dt class='listBorder resultEntry'></dt>";
 var institutionNameHTML = "<div>%data%</div>";
@@ -8,9 +10,10 @@ var contactNameHTML = "<div>%data%</div>";
 var addressHTML = "<div>%data%</div>";
 var HTMLtags = "<div class='tagsEntry'></div>";
 var HTMLtagEntry = "<span class='label label-default'>%DATA%</span>";
+var HTMLtagBarEntry = "<span class='checkWrapper'><input type='checkbox' value='%data%' checked> <label>%data%</label> </span>";
 
 function initialize() {
-
+  //Initialize Map
   map = new google.maps.Map(document.getElementById('map-div'), {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
 	  zoom: 12,
@@ -37,7 +40,7 @@ function initialize() {
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
-  //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
 
   var searchBox = new google.maps.places.SearchBox(
     /** @type {HTMLInputElement} */(input));
@@ -69,11 +72,32 @@ function initialize() {
     var url = "/search";
     $.get(url, {"lat":lat, "lng":lng, "radius":radius}, function(data, status){
       if(status === "success"){
-        //console.log(data.items);
-        placePins(data.items);
-        displayResults(data.items);
+        results = data.items;
+        buildTagsFilter(results);
+        placePins(results);
+        displayResults(results);
       }
     }, "json");
+  }
+
+  function buildTagsFilter(items) {
+    $("#filterBox").empty();
+    var tagsSet = {};
+    for(var i = 0; i < items.length; i++){
+      if(items[i].tags != undefined && items[i].tags.length > 0) {
+        for(var x = 0; x < items[i].tags.length; x++){
+          tagsSet[items[i].tags[x].name] = true;
+        }
+      }
+    }
+    var keys = [];
+    for(var k in tagsSet){
+      keys.push(k);
+    } 
+    for(var i = 0; i < keys.length; i++){
+      console.log(keys[i]);
+      $("#filterBox").append(HTMLtagBarEntry.replace("%data%", keys[i]).replace("%data%", keys[i]));
+    }
   }
 
   function displayResults(items){
@@ -84,12 +108,11 @@ function initialize() {
       $(".resultEntry:last").append(institutionNameHTML.replace("%data%", items[i].name));
       $(".resultEntry:last").append(addressHTML.replace("%data%", items[i].address));
       if(items[i].tags != undefined && items[i].tags.length > 0){
-        $(".resultEntry:last").append(HTMLtags);
+       $(".resultEntry:last").append(HTMLtags);
+       for(var x = 0; x < items[i].tags.length; x++){
+          $(".tagsEntry:last").append(HTMLtagEntry.replace("%DATA%", items[i].tags[x].name));
+       }
       }
-      for(var x = 0; x < items[i].tags.length; x++){
-        $(".tagsEntry:last").append(HTMLtagEntry.replace("%DATA%", items[i].tags[x].name));
-      }
-
     }
     $("#leftMenu").show("slow","swing", function(){ $("#leftMenuMin").hide(); });
   }
@@ -98,8 +121,28 @@ function initialize() {
     for(var i = 0; i < items.length; i++){
       console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
-      placeMarker(latlng, map, items[i].name, false, i + 1);
+      placeMarker(latlng, map, items[i].name, false, i + 1); 
     }
+  }
+
+  function filterResults(items) {
+    checked_tags = {};
+    filtered_items = [];
+     $("input:checkbox:checked").each(function(){
+        checked_tags[$(this).val()] = true;
+     });
+
+     for(var i = 0; i < items.length; i++) {
+      if(items[i].tags != undefined && items[i].tags.length > 0){
+       for(var x = 0; x < items[i].tags.length; x++){
+          if(checked_tags[items[i].tags[x].name]){
+            filtered_items.push(items[i]);
+            break;
+          }
+        }
+      }
+    }
+    return filtered_items;
   }
 
   // Bias the SearchBox results towards places that are within the bounds of the
@@ -108,15 +151,6 @@ function initialize() {
     var bounds = map.getBounds();
     searchBox.setBounds(bounds);
   });
-
-  /*google.maps.event.addListener(map, 'click', function(e) {
-    var lat = e.latLng.A;
-    var lng = e.latLng.F;
-    clearMarkers();
-    placeMarker(e.latLng, map, "", true);
-    searchClosestContacts(lat, lng, radius);
-    map.setCenter(e.latLng);
-  });*/
 
   function clearMarkers(){
     for (var i = 0, marker; marker = markers[i]; i++) {
@@ -162,6 +196,13 @@ function initialize() {
     }
     markers.push(marker);
   }
+
+  $("#filterBox").on('click', 'input:checkbox', function(){
+     var filtered = filterResults(results);
+     clearResultsMarkers();
+     placePins(filtered);
+     displayResults(filtered);
+  });
 }
 
 $(document).ready(function(){
