@@ -76,9 +76,28 @@ def index():
     tags=[i.serialize for i in items]       
     return render_template('index.html', tags=tags)
 
-@app.route('/demo')
-def demo():
-    return ('hola mundo')    
+
+@app.route('/registro',methods=['GET','POST'])
+def registerUser():
+    if request.method == 'GET':
+        return render_template('registerUser.html')
+    else:
+        f = request.form
+        phone1 = f['phone1']
+        phone2 = f['phone2']
+        address = f['address']
+        email = f['email']
+        url = f['url']
+        name = f['name']
+        passwd = f['password'].encode('utf-8')
+        hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
+        descripcion = f['descripcion']
+        organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email) 
+        usuario = User(email=email,password=hashed,institution=organization)
+        #session.add(organization)
+        #session.add(usuario)
+        #session.commit()
+        return render_template("registerUser.html",feedback="Guardado Correctamente")
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
