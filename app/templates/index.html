@@ -28,30 +28,32 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row filter-button">
         <div></div>
         <div class="col-xs-2">
           <button type="button" class="btn" id="filterBtn">
             <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span> FILTRO
           </button>
         </div>
-        <div class="col-xs-8">
-          <input id="pac-input" class="form-control" type="text" placeholder="Introduce una dirección">
-        </div>
+        <!--div class="col-xs-8">
+          
+        </div-->
       </div>
 
       <div class="row">
         <div class="col-xs-12" id="filterBox">
+          <!--
           {%for i in tags %}
             <span class="checkWrapper">
               <label> <input type="checkbox" value="" checked> {{i.name}} </label>
             </span>
           {% endfor %}
+        -->
         </div>
       </div>
       
-      <div class="row">
-        <div class="col-xs-12">
+      <div class="row" id='map-row'>
+        <div class="col-xs-12" id="map-column">
 
           <div class="row">
            <div class="col-xs-3" id="leftMenu">
@@ -69,13 +71,10 @@
               </div>
             </div>
           </div>
-          
+          <input id="pac-input" class="controls" type="text" placeholder="Introduce una dirección">
           <div id="map-div"></div>
         </div>
       </div>
     </div>
-    {% if current_user.is_authenticated() %}
-  Hi {{ current_user.inst_id }}!
-   {% endif %}
 </body>
 </html>
