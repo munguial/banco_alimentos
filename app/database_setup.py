@@ -16,7 +16,7 @@ from flask import Flask
 from flask.ext.heroku import Heroku
 from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, UserMixin
 
-
+ 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URL"]
@@ -88,10 +88,6 @@ class Tag(db.Model):
     tag_name = relationship("TagName", foreign_keys=[tag_name_id])
 
 
-roles_users = db.Table(
-    'roles_users',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('role_id', db.Integer, db.ForeignKey('roles.id')))
 
 class Role(db.Model, RoleMixin):
     __tablename__ = 'roles'
@@ -105,20 +101,14 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     active = db.Column(db.Boolean)
-    roles = db.relationship(
-        'Role', secondary=roles_users,
-        backref=db.backref('users', lazy='dynamic'))
     inst_id = Column(Integer, ForeignKey('institutions.id'))
     institution = relationship(Institution)
+    role_id = Column(Integer, ForeignKey('roles.id'))
+    role = relationship(Role)
 
     def get(self):
         """Return the email address to satisfy Flask-Login's requirements."""
         return self.email
-
-
-roles = db.relationship(
-    'Role', secondary=roles_users,
-    backref=db.backref('users', lazy='dynamic'))
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)

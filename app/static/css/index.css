@@ -89,6 +89,13 @@ html, body {
   margin-bottom: 3px;
 }
 
+
+.login
+{
+  color: #fff;
+  font-size: 20px;
+  float:right;
+}
 .object-tag.selected {
   background: transparent linear-gradient(#434343, #595959) repeat scroll 0% 0%;
   border: 1px solid transparent;

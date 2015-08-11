@@ -3,43 +3,126 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco de alimentos</title>
+  <title>Home</title>
   <link rel="stylesheet" src="https://normalize-css.googlecode.com/svn/trunk/normalize.css" />
-   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <!-- jQuery library -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/home.css">
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+  <script type="text/javascript" src="static/js/home.js"></script>
+  <script type="text/javascript" src="static/js/bootsnipp.js"></script>
+  <script type="text/javascript" src="static/js/validator.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="static/css/index.css">
+</head>
+<body>
+    <div id="container" class="container-fluid">
+      <div class="row header">
+        <div class="col-xs-2">
+          <img src="static/images/logo2.png" class="img-responsive">
+        </div>
+        <div class="col-xs-10">
+        <span style="font-size:18px;float:right;"><a href='/logout'>cerrar sesion</a></span></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="row">
+            <div class="col-xs-12 header-2">
+              REGISTRA UNA ORGANIZACION
+            </div>
+          </div>
 
-  </head>
-  <body>
-    <form id='credentials-form' method="POST" class="form-horizontal">
-      <div class="col-xs-2">
-        Registrar Usuario:
-        <div class="form-group"></br>
-           Usuario: <input type="text" name="user" class="form-control" placeholder="Usuario" id="user"><br>
-           Contraseña: <input type="password" name="passwd" class="form-control" placeholder="Contraseña" id="passwd">
-          Confirmar Contraseña: <input type="password2" name="passwd2" class="form-control" placeholder="Contraseña" id="passwd2">
-       </div>
-       <select style="display:block;" id="customDropdown">
-      {% for c in dropdown %}
-        {% if c.id == 1 %}
-          <option id="{{ c.name }}" name="{{ c.name }}" SELECTED>{{ c.name }}</option>
-        {% else %}
-          <option>{{ c.name }}</option>
-        {% endif %}
+          <form id='institution-form'  method="POST" action="/registro" role="form">
 
-      {% endfor %}
-    </select>
+            <!-- general info left -->
+            <div class="col-xs-6">
+              {{ feedback }}
+            <div class="col-xs-12">
+                <div class="form-group form-item">
+                    <label for="name" class="control-label">NOMBRE</label>
+                    <input type="text" name="name" class="form-control" placeholder="Nombre" data-error="Por favor introduzca un nombre para este punto de contacto" id="inputName" required>
+                    <div class="help-block with-errors"></div>
+                </div>
 
-       <input type="checkbox">Administrador:&nbsp;</input></br>
+                <div class="form-group form-item">
+                    <label for="email" class="control-label">EMAIL (USUARIO)</label>
+                    <input type="email" class="form-control" name="email" data-error="El correo electrónico es inválido" id="inputEmail" placeholder="Correo electrónico">
+                    <div class="help-block with-errors"></div>
+                </div>
 
-       <button type="submit" class="btn btn-primary">Entrar</button>
+                <div class="form-group form-item">
+                    <label for="email" class="control-label">CONTRASE&Ntilde;A</label>
+                    <input type="password" class="form-control" name="password" id="passwd" placeholder="Contrase&ntilde;a">
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group form-item">
+                    <label for="email" class="control-label">CONFIRMAR CONTRASE&Ntilde;A</label>
+                    <input type="password" class="form-control" name="password2" id="passwd2" placeholder="Contrase&ntilde;a">
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group form-item">
+                    <label for="notas" class="control-label">DESCRIPCION</label>
+                    <textarea class="form-control" name="descripcion" rows="3" id="inputNotes" placeholder="Descripcion de esta organizacion" ></textarea>
+                </div>
+
+            </div>
+            
+          </div>
+          
+
+            <!-- General info right-->
+            <div class="col-xs-6">
+
+              <div class="form-group form-item">
+                  <label for="telephone" class="control-label">TELÉFONO DE CONTACTO</label>
+                  <input type="tel" data-minlength="10" pattern="[0-9]{10}" name="phone1" data-error="Ingresa un número de teléfono de 10 dígitos sin espacios ni paréntesis" class="form-control" placeholder="Teléfono" id="inputPhone" required>
+                  <div class="help-block with-errors"></div>
+              </div>
+
+              <div class="form-group form-item">
+                  <label for="telephone2" class="control-label">TELÉFONO ALTERNATIVO</label>
+                  <input type="tel" data-minlength="10" pattern="[0-9]{10}" class="form-control" name="phone2" data-error="Ingresa un número de teléfono de 10 dígitos sin espacios ni paréntesis" id="inputPhone2" placeholder="Teléfono alterno">
+                  <div class="help-block with-errors"></div>
+              </div>
+
+              <div class="form-group form-item">
+                  <label for="url" class="control-label">PÁGINA WEB</label>
+                  <input type="url" class="form-control" name="url" id="inputUrl" placeholder="URL">
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group form-item">
+                  <label for="address" class="control-label">DIRECCIÓN</label>
+                  <input id="pac-input" class="form-control" type="text" name="address" placeholder="Dirección principal"/>
+            
+                </div>
+              </div>
+            </div>
+            <div class="form-group" id="save-button">
+              <div class="col-xs-offset-3 col-xs-5">
+                  <button type="submit" class="btn btn-success btn-lg btn-block">Guardar</button>
+              </div>
+            </div>
+            <div class-"row">
+              <div class="col-xs-offset-3 col-xs-5" id="result"></div>
+            </div>
+          </form>  
+        </div>
+        
+   
+      </div>
+ 
+      <!-- Footer -->
+      <div class="row">
+        <div class="col-xs-12 footer">
+          
+        </div>
+      </div>
     </div>
-
-  </form>
-  </body>
+</body>
 </html>

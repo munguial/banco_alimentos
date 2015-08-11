@@ -11,14 +11,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
-  <script type="text/javascript" src="static/js/bootstrap-multiselect.js"></script>
-  <link rel="stylesheet" href="static/css/bootstrap-multiselect.css" type="text/css"/>
   <link rel="stylesheet" type="text/css" href="static/css/index.css">
   <link rel="stylesheet" type="text/css" href="static/css/format.css">
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
   <script src="static/js/index.js"></script>
-  <script type="text/javascript" src="static/js/bootsnipp.js"></script>
 
 </head>
 <body>
@@ -32,7 +28,7 @@
         </div>
       </div>
 
-      <!--div class="row filter-button">
+      <div class="row filter-button">
         <div></div>
         <div class="col-xs-2">
           <button type="button" class="btn" id="filterBtn">
@@ -41,10 +37,10 @@
         </div>
         <!--div class="col-xs-8">
           
-        </div>
+        </div-->
       </div>
 
-      <!--div class="row">
+      <div class="row">
         <div class="col-xs-12" id="filterBox">
           <!--
           {%for i in tags %}
@@ -52,23 +48,23 @@
               <label> <input type="checkbox" value="" checked> {{i.name}} </label>
             </span>
           {% endfor %}
-        >
+        -->
         </div>
-      </div-->
+      </div>
       
       <div class="row" id='map-row'>
         <div class="col-xs-12" id="map-column">
 
           <div class="row">
-           <div id="leftMenu">
+           <div class="col-xs-3" id="leftMenu">
              <div  id="collapse"><span class="glyphicon glyphicon-minus-sign"></span></div>
-              <div id="title">Organizaciones más cercanas</div>
+              <div id="title"> Lista de Organizaciones</div>
               <dl  class="custom-counter" id="custom-counter"></dl>
             </div>
           </div>
 
           <div class="row">
-            <div id="leftMenuMin">
+            <div class="col-xs-1" id="leftMenuMin">
               <div  id="maximize">
                 <div>Mostrar Resultados</div>
                 <span class="glyphicon glyphicon-plus-sign"></span>
@@ -77,45 +73,8 @@
           </div>
           <input id="pac-input" class="controls" type="text" placeholder="Introduce una dirección">
           <div id="map-div"></div>
-          <!--div class="filter-button">
-            <button type="button" class="btn" id="filterBtn">
-            <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>FILTRO
-          </button></div-->
-
-           <!-- Button trigger modal -->
-          <div class="filter-button">
-            <button type="button" id="filterBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-              Filtrar Resultados
-            </button>
-          </div>
-
-
         </div>
       </div>
-
-      <!-- Modal -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Filtra los resultados por tipo de ayuda</h4>
-            </div>
-            <div class="modal-body">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-xs-12" id='tags-div'>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="filterButton" class="btn btn-primary">Filtrar resultados</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 </body>
 </html>
