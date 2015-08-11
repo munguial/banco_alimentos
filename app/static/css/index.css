@@ -11,7 +11,7 @@ html, body {
 }
 
 #map-row {
-  height: calc(100% - 40px - 130px);
+  height: calc(100% - 13%);
 }
 
 #map-column {
@@ -20,6 +20,10 @@ html, body {
 
 .filter-button{
   height: 40px;
+  position: absolute; 
+  top: 60px;
+  right: 70px;
+  z-index: 99;
 }
 
 .controls {
@@ -74,7 +78,7 @@ html, body {
 {
     color: white;
     background-color: #50AE55;
-    height: 130PX;
+    height: 13%;
     font-size: 60px;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.3);
@@ -85,9 +89,30 @@ html, body {
   margin-bottom: 3px;
 }
 
+
 .login
 {
   color: #fff;
   font-size: 20px;
   float:right;
+}
+.object-tag.selected {
+  background: transparent linear-gradient(#434343, #595959) repeat scroll 0% 0%;
+  border: 1px solid transparent;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3) inset;
+  color: #FFF;
+}
+
+.object-tag {
+  box-shadow: 0px 1px 0px #FFF inset;
+  color: #232323;
+  cursor: pointer;
+  float: left;
+  margin: 0px 7px 7px 0px;
+  padding: 3px 9px 4px;
+  text-transform: lowercase;
+  -moz-user-select: none;
+  background: transparent linear-gradient(#FBFBFB, #E9E9E9) repeat scroll 0% 0%;
+  border: 1px solid #C7C7C7;
+  border-radius: 3px;
 }

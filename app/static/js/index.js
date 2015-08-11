@@ -10,7 +10,7 @@ var contactNameHTML = "<div>%data%</div>";
 var addressHTML = "<div>%data%</div>";
 var HTMLtags = "<div class='tagsEntry'></div>";
 var HTMLtagEntry = "<span class='label label-default'>%DATA%</span>";
-var HTMLtagBarEntry = "<span class='checkWrapper'><input type='checkbox' value='%data%' checked> <label>%data%</label> </span>";
+var HTMLtagBarEntry = "<div class='object-tag' value='%data%'>%data%</div>";
 
 function initialize() {
   //Initialize Map
@@ -81,7 +81,7 @@ function initialize() {
   }
 
   function buildTagsFilter(items) {
-    $("#filterBox").empty();
+    $("#tags-div").empty();
     var tagsSet = {};
     for(var i = 0; i < items.length; i++){
       if(items[i].tags != undefined && items[i].tags.length > 0) {
@@ -95,13 +95,16 @@ function initialize() {
       keys.push(k);
     } 
     for(var i = 0; i < keys.length; i++){
-      console.log(keys[i]);
-      $("#filterBox").append(HTMLtagBarEntry.replace("%data%", keys[i]).replace("%data%", keys[i]));
+      //console.log(keys[i]);
+      $("#tags-div").append(HTMLtagBarEntry.replace("%data%", keys[i]).replace("%data%", keys[i]));
     }
   }
 
   function displayResults(items){
     $("#custom-counter").empty();
+    if(filterExists()){
+      items = filterResults(items);
+    }
     for(var i = 0; i < items.length; i++){
       $("#custom-counter").append(searchResultHTML);
       $(".resultEntry:last").append(contactNameHTML.replace("%data%", items[i].c_name));
@@ -118,8 +121,11 @@ function initialize() {
   }
 
   function placePins(items){
+    if(filterExists()){
+      items = filterResults(items);
+    }
     for(var i = 0; i < items.length; i++){
-      console.log(items[i]);
+      //console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
       placeMarker(latlng, map, items[i].name, false, i + 1); 
     }
@@ -128,8 +134,8 @@ function initialize() {
   function filterResults(items) {
     checked_tags = {};
     filtered_items = [];
-     $("input:checkbox:checked").each(function(){
-        checked_tags[$(this).val()] = true;
+     $(".object-tag.selected").each(function(){
+        checked_tags[$(this).attr('value')] = true;
      });
 
      for(var i = 0; i < items.length; i++) {
@@ -143,6 +149,12 @@ function initialize() {
       }
     }
     return filtered_items;
+  }
+
+  function filterExists(){
+    var count = 0;
+    $(".object-tag.selected").each(function(){ count++; });
+    return count > 0;
   }
 
   // Bias the SearchBox results towards places that are within the bounds of the
@@ -203,11 +215,27 @@ function initialize() {
      placePins(filtered);
      displayResults(filtered);
   });
+
+  $("#tags-div").on('click', '.object-tag', function(){
+    $(this).toggleClass("selected");
+  });
+
+  $("#filterButton").click(function(){
+    $('#myModal').modal('hide');
+     clearResultsMarkers();
+     placePins(results);
+     displayResults(results);
+  });
+
+
+
+  //$('.SlectBox').SumoSelect({ okCancelInMulti: true, selectAll: true, selectAlltext: 'Todo', placeholder: 'Filtrar resultados' });
+  //$('#example-getting-started').multiselect({ buttonWidth: '300px', dropRight: true, maxHeight: 250, nonSelectedText: 'Filtrar resultados', includeSelectAllOption: true, selectAllText: 'Seleccionar todo'});
+
+  //$("#filterBtn").click();
 }
 
 $(document).ready(function(){
-  $("#filterBtn").click(function(){ $("#filterBox").toggle("slow","swing") } );
-  $("#busquedaBtn").click(function(){ $("#leftMenu").show("slow","swing", function(){ $("#leftMenuMin").hide(); })  } );
   $("#collapse").click(function(){ $("#leftMenu").hide( function(){ $("#leftMenuMin").show("slow","swing"); }) } );
   $("#maximize").click(function(){ $("#leftMenu").show( function(){ $("#leftMenuMin").hide()  ; }) } );
 });
