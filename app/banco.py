@@ -46,12 +46,15 @@ def user_loader(user_id):
 def login():
     if request.method == 'GET':
         if current_user.is_authenticated():
-            return redirect('/home')
+            if current_user.role_id == 2:
+                return redirect('/home')
+            else:
+                return redirect('/registro')
+
         else:
             return render_template('login.html')
     else:
         passwd = request.form['passwd'].encode('utf-8')
-        print bcrypt.hashpw(passwd, bcrypt.gensalt())
         user =  User.query.filter_by(email=request.form['user']).first()
     if (user):
         hashed = user.password.encode('utf-8')
@@ -79,25 +82,29 @@ def index():
 
 @app.route('/registro',methods=['GET','POST'])
 def registerUser():
-    if request.method == 'GET':
-        return render_template('registerUser.html')
+    if current_user and current_user.role_id == 1:
+        if request.method == 'GET':
+            return render_template('registerUser.html')
+        else:
+            f = request.form
+            phone1 = f['phone1']
+            phone2 = f['phone2']
+            address = f['address']
+            email = f['email']
+            url = f['url']
+            name = f['name']
+            passwd = f['password'].encode('utf-8')
+            hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
+            descripcion = f['descripcion']
+            organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email) 
+            usuario = User(email=email,password=hashed,institution=organization,role_id = 2,active=True)
+            session.add(organization)
+            session.add(usuario)
+            session.commit()
+            return render_template("registerUser.html",feedback="Guardado Correctamente")
     else:
-        f = request.form
-        phone1 = f['phone1']
-        phone2 = f['phone2']
-        address = f['address']
-        email = f['email']
-        url = f['url']
-        name = f['name']
-        passwd = f['password'].encode('utf-8')
-        hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
-        descripcion = f['descripcion']
-        organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email) 
-        usuario = User(email=email,password=hashed,institution=organization)
-        #session.add(organization)
-        #session.add(usuario)
-        #session.commit()
-        return render_template("registerUser.html",feedback="Guardado Correctamente")
+        return 'unathorized'
+
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
