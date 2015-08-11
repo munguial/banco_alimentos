@@ -109,7 +109,8 @@ def registerUser():
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
     f = request.form
-    institution = session.query(Institution).filter(Institution.id == 1).first()
+    inst = current_user.inst_id
+    institution = session.query(Institution).filter(Institution.id == inst).first()
 
     phone1 = f['phone1']
     phone2 = f['phone2']
@@ -138,7 +139,8 @@ def saveContact():
 
 @app.route('/contacts')
 def getContacts():
-    institution = session.query(Institution).filter(Institution.id == 1).first()
+    inst = current_user.inst_id
+    institution = session.query(Institution).filter(Institution.id == inst).first()
     contacts = session.query(Contact).filter(Contact.institution == institution).all()
     return jsonify(items=[i.serialize for i in contacts])
 
@@ -150,7 +152,9 @@ def home():
         items = session.query(TagName).all()
         tags=[i.serialize for i in items]
 
-        institution = session.query(Institution).filter(Institution.id == 1).first()
+        inst = current_user.inst_id
+
+        institution = session.query(Institution).filter(Institution.id == inst).first()
         contacts = session.query(Contact).filter(Contact.institution == institution).all()
         serialized_contacts = [i.serialize for i in contacts]
 
