@@ -99,6 +99,7 @@
     display: none;
     padding-right: 0px;
     overflow-y: scroll;
+    width: 400px;
 }
 
 #leftMenuMin
@@ -112,7 +113,7 @@
     display: none;
     padding-right: 0px;
     padding-top: 2px;
-
+    width: 120px;
 }
 
 #collapse
