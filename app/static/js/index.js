@@ -225,6 +225,14 @@ function initialize() {
      clearResultsMarkers();
      placePins(results);
      displayResults(results);
+     var numItems = $('div.object-tag.selected').size();
+     if(numItems > 0){
+        $('#tagCounter').html(numItems);
+        $("#tagCounter").css("display","inline-block");
+     }
+     else{
+        $("#tagCounter").css("display","none");
+     }
   });
 
 

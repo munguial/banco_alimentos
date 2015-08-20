@@ -117,3 +117,18 @@ html, body {
   border: 1px solid #C7C7C7;
   border-radius: 3px;
 }
+
+#tagCounter 
+{
+ padding: 5px 10px;
+ -moz-border-radius: 100px;
+ -webkit-border-radius: 100px;
+ border-radius: 100px;
+ background-color:red;
+ color:white;
+ position: absolute;
+ top:4px;
+ left: 125px;
+ display: none;
+ border: 2px solid #FFFFFF;
+}
