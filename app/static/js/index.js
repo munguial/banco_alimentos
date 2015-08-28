@@ -1,10 +1,10 @@
 var radius = 10;
-var markers = [];
+var markers = {};
 var map;
 var results = {};
 var checked_tags = {}
 
-var searchResultHTML = "<dt class='listBorder resultEntry'></dt>";
+var searchResultHTML = "<dt class='listBorder resultEntry' id='result-%DATA%'></dt>";
 var institutionNameHTML = "<div>%data%</div>";
 var contactNameHTML = "<div>%data%</div>";
 var addressHTML = "<div>%data%</div>";
@@ -31,7 +31,7 @@ function initialize() {
       //GeoLocation service failed
       map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
     });
-  } 
+  }
   else {
     // Browser doesn't support Geolocation
     map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
@@ -56,7 +56,7 @@ function initialize() {
     clearMarkers();
 
     // For each place, get the icon, place name, and location.
-    markers = [];
+    markers = {};
     var bounds = new google.maps.LatLngBounds();
 
     var place = places[0];
@@ -93,7 +93,7 @@ function initialize() {
     var keys = [];
     for(var k in tagsSet){
       keys.push(k);
-    } 
+    }
     for(var i = 0; i < keys.length; i++){
       //console.log(keys[i]);
       $("#tags-div").append(HTMLtagBarEntry.replace("%data%", keys[i]).replace("%data%", keys[i]));
@@ -106,7 +106,7 @@ function initialize() {
       items = filterResults(items);
     }
     for(var i = 0; i < items.length; i++){
-      $("#custom-counter").append(searchResultHTML);
+      $("#custom-counter").append(searchResultHTML.replace("%DATA%", i + 1));
       $(".resultEntry:last").append(contactNameHTML.replace("%data%", items[i].c_name));
       $(".resultEntry:last").append(institutionNameHTML.replace("%data%", items[i].name));
       $(".resultEntry:last").append(addressHTML.replace("%data%", items[i].address));
@@ -125,9 +125,8 @@ function initialize() {
       items = filterResults(items);
     }
     for(var i = 0; i < items.length; i++){
-      //console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
-      placeMarker(latlng, map, items[i].name, false, i + 1); 
+      placeMarker(latlng, map, items[i].name, false, i + 1);
     }
   }
 
@@ -205,8 +204,13 @@ function initialize() {
         icon : 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + n + '|1e90ff|000000',
         title: title
       });
+
+      marker.addListener('mouseover', function(){
+          //console.log("Se le dio click al marker con id = " + n);
+          $("#result-" + n).effect('highlight', {color:"#50AE55"}, 1500);
+      });
     }
-    markers.push(marker);
+    markers[n] = marker;
   }
 
   $("#filterBox").on('click', 'input:checkbox', function(){
@@ -220,11 +224,32 @@ function initialize() {
     $(this).toggleClass("selected");
   });
 
+  $("#custom-counter").on({
+      mouseenter: function(){
+          var n = $(this).attr('id').split('-')[1];
+          $(this).addClass('highlight', 200);
+          markers[n].setAnimation(google.maps.Animation.BOUNCE);
+      },
+      mouseleave: function() {
+          var n = $(this).attr('id').split('-')[1];
+          $(this).removeClass('highlight', 200);
+          markers[n].setAnimation(null);
+      }
+    }, '.resultEntry');
+
   $("#filterButton").click(function(){
     $('#myModal').modal('hide');
      clearResultsMarkers();
      placePins(results);
      displayResults(results);
+     var numItems = $('div.object-tag.selected').size();
+     if(numItems > 0){
+        $('#tagCounter').html(numItems);
+        $("#tagCounter").css("display","inline-block");
+     }
+     else{
+        $("#tagCounter").css("display","none");
+     }
   });
 
 

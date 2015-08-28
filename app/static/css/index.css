@@ -1,4 +1,4 @@
-#map-div { 
+#map-div {
 	height: 100%;
 }
 
@@ -18,9 +18,18 @@ html, body {
   height: 100%;
 }
 
+.highlight {
+	background-color: #50AE55;
+}
+
+dt{
+	cursor: pointer;
+	cursor: hand;
+}
+
 .filter-button{
   height: 40px;
-  position: absolute; 
+  position: absolute;
   top: 60px;
   right: 70px;
   z-index: 99;
@@ -87,6 +96,7 @@ html, body {
 .label {
   margin-right: 3px;
   margin-bottom: 3px;
+  display: inline-block;
 }
 
 
@@ -116,4 +126,19 @@ html, body {
   background: transparent linear-gradient(#FBFBFB, #E9E9E9) repeat scroll 0% 0%;
   border: 1px solid #C7C7C7;
   border-radius: 3px;
+}
+
+#tagCounter
+{
+ padding: 5px 10px;
+ -moz-border-radius: 100px;
+ -webkit-border-radius: 100px;
+ border-radius: 100px;
+ background-color:red;
+ color:white;
+ position: absolute;
+ top:4px;
+ left: 125px;
+ display: none;
+ border: 2px solid #FFFFFF;
 }
