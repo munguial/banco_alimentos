@@ -14,64 +14,124 @@ from flask_security.utils import encrypt_password
 import os
 import bcrypt
 from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, UserMixin
-
-
+from flask.ext.mail import Mail, Message
+from config import ADMINS
+import random
+import string
+from functools import wraps
+import sqlalchemy.exc
+import sqlalchemy
 
 app = Flask(__name__)
 heroku = Heroku(app)
+mail = Mail(app)
 
 engine = create_engine(os.environ["DATABASE_URL"])
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-app.config['SECRET_KEY'] = 'randomHashoneTwo'
+app.config['SECRET_KEY'] = 'randomHashoSecretKey'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
 
 
-
 @login_manager.user_loader
 def load_user(id):
     return User.get(id)
 
+def requires_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if get_current_user_role() not in roles:
+                return error_response()
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
+
+def get_current_user_role():
+    if(current_user.is_authenticated()):
+        return str(current_user.role_id)
+
+def error_response():
+    return "unathorized"
 
 @login_manager.user_loader
 def user_loader(user_id):
     return User.query.get(user_id)
 
+def validatePassword(usuario, passwd):
+    user =  User.query.filter_by(email=usuario).first()
+    if(user):
+        if(bcrypt.hashpw(passwd, user.password.encode('utf-8')) == user.password):
+            login_user(user)
+            return True
+        else:
+            return False   
+
+
+def redirectUser():
+    if current_user.role_id == 2:
+        return redirect('/home')
+    else:
+        return redirect('/registro')
+
+
+
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':
         if current_user.is_authenticated():
-            if current_user.role_id == 2:
-                return redirect('/home')
-            else:
-                return redirect('/registro')
-
+            return redirectUser()
         else:
             return render_template('login.html')
     else:
         passwd = request.form['passwd'].encode('utf-8')
-        user =  User.query.filter_by(email=request.form['user']).first()
-    if (user):
-        hashed = user.password.encode('utf-8')
-        if(bcrypt.hashpw(passwd, hashed) == user.password):
-            login_user(user)
-            return redirect('/home')
-        else:
-            return render_template('login.html', error="email o contrasena incorrectos")
+    if(validatePassword(request.form['user'],passwd)):
+        return redirectUser()
     else:
         return render_template('login.html', error="email o contrasena incorrectos")
-
+    
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect('/')
+
+def send_email(subject, sender, recipients, text_body, html_body):
+    msg = Message(subject, sender=sender, recipients=recipients)
+    msg.body = text_body
+    msg.html = html_body
+    mail.send(msg)
+
+def resetPassword():
+   user = User.query.filter_by(email=request.form['user']).first()
+   if(user):
+    user.password = generateRandomPassword()
+    print user.password
+    session.commit()
+
+
+def generateRandomPassword():
+    s=string.lowercase+string.digits
+    passwd = ''.join(random.sample(s,10))
+    passwd.encode('utf-8')
+    print passwd
+    hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
+    return hashed
+
+@app.route("/forgot",methods=['GET','POST'])
+def forgot():
+    if request.method == 'POST':
+        resetPassword()
+        #send_email('asunto','tsu_carlosescamilla@hotmail.com','cescamilla@ooyala.com','mensaje body','<b>HTML</b> body')
+        return render_template('forgot.html',feedback = "Email enviado")  
+    else:
+        return render_template('forgot.html')  
 
 @app.route('/')
 def index():
@@ -80,30 +140,48 @@ def index():
     return render_template('index.html', tags=tags)
 
 
-@app.route('/registro',methods=['GET','POST'])
-def registerUser():
-    if current_user and current_user.role_id == 1:
-        if request.method == 'GET':
-            return render_template('registerUser.html')
-        else:
-            f = request.form
-            phone1 = f['phone1']
-            phone2 = f['phone2']
-            address = f['address']
-            email = f['email']
-            url = f['url']
-            name = f['name']
-            passwd = f['password'].encode('utf-8')
-            hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
-            descripcion = f['descripcion']
-            organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email) 
-            usuario = User(email=email,password=hashed,institution=organization,role_id = 2,active=True)
-            session.add(organization)
-            session.add(usuario)
-            session.commit()
-            return render_template("registerUser.html",feedback="Guardado Correctamente")
-    else:
-        return 'unathorized'
+@app.route('/registro',methods=['GET'])
+@login_required
+@requires_roles('1')
+def registerOrganization():
+    Organizations = session.query(Institution).all()
+    return render_template('registerOrganization.html',organizations=Organizations)
+
+
+
+@app.route("/registro/save",methods=['POST'])
+@login_required
+@requires_roles('1')
+def saveOrganization():
+    print 'puto beto'
+    f = request.form
+    print f
+    phone1 = f['phone1']
+    phone2 = f['phone2']
+    address1 = f['address']
+    email = f['email']
+    url = f['url']
+    name = f['name']
+    passwd = f['passwd'].encode('utf-8')
+    hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
+    descripcion = f['descripcion']
+    organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email, address=address1) 
+    usuario = User(email=email,password=hashed,institution=organization,role_id = 2,active=True)
+    try:
+        session.add(organization)
+        session.add(usuario)
+        session.commit()
+    except sqlalchemy.exc.IntegrityError, exc:
+        reason = exc.message
+        session.rollback()
+        if('users_email_key' in reason):
+                return "El email ya esta registrado, por favor intente nuevamente con otro email"
+
+    return 'success'
+
+
+
+
 
 
 @app.route('/contacts/save', methods=['POST'])
@@ -135,6 +213,14 @@ def saveContact():
         session.commit()
     
     return "success"
+
+
+
+@app.route("/institutions",methods=['GET'])
+@login_required
+def getOrganizationsJSON():
+    institutions = session.query(Institution).all()
+    return jsonify(items=[i.serialize for i in institutions])    
 
 
 @app.route('/contacts')
