@@ -76,7 +76,7 @@ def logout():
 @app.route('/')
 def index():
     items = session.query(TagName).all()
-    tags=[i.serialize for i in items]       
+    tags=[i.serialize for i in items]
     return render_template('index.html', tags=tags)
 
 
@@ -96,7 +96,7 @@ def registerUser():
             passwd = f['password'].encode('utf-8')
             hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
             descripcion = f['descripcion']
-            organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email) 
+            organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email)
             usuario = User(email=email,password=hashed,institution=organization,role_id = 2,active=True)
             session.add(organization)
             session.add(usuario)
@@ -104,7 +104,7 @@ def registerUser():
             return render_template("registerUser.html",feedback="Guardado Correctamente")
     else:
         return 'unathorized'
-        
+
 
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
@@ -122,7 +122,7 @@ def saveContact():
     name = f['name']
     url = f['url']
 
-    point_of_contact = Contact(institution=institution, name=name, latitude=lat, longitude=lng, address=address, 
+    point_of_contact = Contact(institution=institution, name=name, latitude=lat, longitude=lng, address=address,
         telephone1=phone1, telephone2=phone2, notas=notes, url=url, email=email)
 
     session.add(point_of_contact)
@@ -133,7 +133,7 @@ def saveContact():
         tag = Tag(contact = point_of_contact, tag_name=tag_name)
         session.add(tag)
         session.commit()
-    
+
     return "success"
 
 
@@ -172,8 +172,8 @@ def search():
 
     #magicQuery = text(
     #    """SELECT * FROM
-    #        (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url, 
-    #                (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
+    #        (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url,
+    #                (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance
     #         FROM contacts AS c INNER JOIN institutions AS i
     #         ON c.inst_id = i.id) AS t1
     #    WHERE distance < :r """)
@@ -181,15 +181,16 @@ def search():
     magicQuery = text(
         """SELECT * FROM
             (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url,
-                    (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance 
-            FROM contacts AS c 
+                    (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance
+            FROM contacts AS c
             INNER JOIN institutions AS i
             ON c.inst_id = i.id
             ) AS t1
-        WHERE distance < :r """)
+        WHERE distance < :r
+        ORDER BY distance """)
 
     items = session.execute(magicQuery, {"lat":lat, "lng":lng, "r":rad})
-    
+
     resultset = []
     for row in items:
         d = dict(row)
