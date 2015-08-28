@@ -1,5 +1,6 @@
 import os
 import sys
+from flask import Flask
 from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -12,7 +13,6 @@ from flask_security import (
     RoleMixin,
     login_required)
 from flask_security.utils import encrypt_password
-from flask import Flask
 from flask.ext.heroku import Heroku
 from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, UserMixin
 
@@ -34,6 +34,19 @@ class Institution(db.Model):
     email = Column(String(255))
     url = Column(String(512))
     description = Column(String(2000))
+
+    @property
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "address" : self.address,
+            "phone1" : self.telephone1,
+            "phone2" : self.telephone2,
+            "email" : self.email,
+            "url" : self.url,
+            "description" : self.description
+        }
 
 class Contact(db.Model):
     __tablename__ = 'contacts'

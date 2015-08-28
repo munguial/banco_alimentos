@@ -161,10 +161,10 @@ $(document).ready(function() {
 }); 
 
 function displayContacts(items) {
-  $("#registeredContacts").empty();
+  $("#registeredOrganizations").empty();
   for(var i = 0; i < items.length; i++) {
     var HTMLstring = HTMLcontact.replace("%DATAHEAD%", items[i].name).replace("%DATA%", items[i].address);
-    $("#registeredContacts").append(HTMLstring);
+    $("#registeredOrganizations").append(HTMLstring);
   }
 }
 
