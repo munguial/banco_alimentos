@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reestablecer Contrase&ntilde;a</title>
+   <!-- Latest compiled an minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- jQuery library -->  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/login.css">
+
+  </head>
+  <body>
+        <div class="container">
+        <div class="card card-container">
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin" method="POST">
+                Reestablecer Contrase&ntilde;a<br><br> 
+                Una nueva contrase&ntilde;a sera enviada a su correo.
+                <label class =""> {%if feedback%}{{feedback}}{%endif%}</label>
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="email" id="user" name="user" class="form-control" placeholder="Email" required autofocus >
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Enviar Contrase&ntilde;a</button>
+            </form>
+            <a href="/login" class="forgot-password">
+               Iniciar Sesion
+            </a><!-- /form -->
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+  </body>
+</html>
