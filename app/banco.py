@@ -145,7 +145,7 @@ def index():
 @requires_roles('1')
 def registerOrganization():
     Organizations = session.query(Institution).all()
-    return render_template('registerOrganization.html',organizations=Organizations)ce
+    return render_template('registerOrganization.html',organizations=Organizations)
 
 
 
