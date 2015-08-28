@@ -145,7 +145,7 @@ def index():
 @requires_roles('1')
 def registerOrganization():
     Organizations = session.query(Institution).all()
-    return render_template('registerOrganization.html',organizations=Organizations)
+    return render_template('registerOrganization.html',organizations=Organizations)ce
 
 
 
@@ -153,7 +153,6 @@ def registerOrganization():
 @login_required
 @requires_roles('1')
 def saveOrganization():
-    print 'puto beto'
     f = request.form
     print f
     phone1 = f['phone1']
