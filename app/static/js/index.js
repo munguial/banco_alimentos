@@ -206,8 +206,10 @@ function initialize() {
       });
 
       marker.addListener('mouseover', function(){
-          //console.log("Se le dio click al marker con id = " + n);
           $("#result-" + n).effect('highlight', {color:"#50AE55"}, 1500);
+          var scrollDiv = document.getElementById('result-' + n);
+          var topPos = scrollDiv.offsetTop;
+          document.getElementById('leftMenu').scrollTop = topPos;
       });
     }
     markers[n] = marker;
