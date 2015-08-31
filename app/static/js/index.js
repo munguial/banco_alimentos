@@ -7,16 +7,17 @@ var checked_tags = {}
 var searchResultHTML = "<dt class='listBorder resultEntry' id='result-%DATA%'></dt>";
 var institutionNameHTML = "<div>%data%</div>";
 var contactNameHTML = "<div class='contact-name'>%data%</div>";
+var contactDistanceHTML = "<span class='contact-distance'>  - Distancia: %data% km</span>";
 var addressHTML = "<div>%data%</div>";
 var HTMLtags = "<div class='tagsEntry'></div>";
 var HTMLtagEntry = "<span class='label label-default'>%DATA%</span>";
 var HTMLtagBarEntry = "<div class='object-tag' value='%data%'>%data%</div>";
 var HTMLlargeDescription = "<div class='contact-description' hidden></div>";
-var HTMLlargeDescPhone1 = "<div>tel: %DATA%</div>";
-var HTMLlargeDescPhone2 = "<div>tel: %DATA%</div>";
+var HTMLlargeDescPhone1 = "<div>Tel: %DATA%</div>";
+var HTMLlargeDescPhone2 = "<div>Tel: %DATA%</div>";
 var HTMLlargeDescNotes = "<div>%DATA%</div>";
-var HTMLlargeDescUrl = "<div>página web: <a href='%DATA%'>%DATA%</a></div>";
-var HTMLlargeDescEmail = "<div>email: %DATA%</div>";
+var HTMLlargeDescUrl = "<div>Página web: <a href='%DATA%'>%DATA%</a></div>";
+var HTMLlargeDescEmail = "<div>Email: %DATA%</div>";
 var HTMLlargeDescIDescription = "<div>%DATA%</div>";
 
 function initialize() {
@@ -115,6 +116,8 @@ function initialize() {
     for(var i = 0; i < items.length; i++){
       $("#custom-counter").append(searchResultHTML.replace("%DATA%", i + 1));
       $(".resultEntry:last").append(contactNameHTML.replace("%data%", items[i].c_name));
+      var distance = Math.floor(items[i].distance * 100) / 100;
+      $(".contact-name:last").append(contactDistanceHTML.replace("%data%", distance));
       $(".resultEntry:last").append(institutionNameHTML.replace("%data%", items[i].i_name));
       $(".resultEntry:last").append(addressHTML.replace("%data%", items[i].address));
 
@@ -140,7 +143,6 @@ function initialize() {
       items = filterResults(items);
     }
     for(var i = 0; i < items.length; i++){
-      console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
       placeMarker(latlng, map, items[i].name, false, i + 1);
     }
