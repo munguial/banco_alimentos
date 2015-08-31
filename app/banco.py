@@ -70,7 +70,7 @@ def validatePassword(usuario, passwd):
             login_user(user)
             return True
         else:
-            return False   
+            return False
 
 
 def redirectUser():
@@ -94,7 +94,7 @@ def login():
         return redirectUser()
     else:
         return render_template('login.html', error="email o contrasena incorrectos")
-    
+
 
 @app.route("/logout")
 @login_required
@@ -129,9 +129,9 @@ def forgot():
     if request.method == 'POST':
         resetPassword()
         #send_email('asunto','tsu_carlosescamilla@hotmail.com','cescamilla@ooyala.com','mensaje body','<b>HTML</b> body')
-        return render_template('forgot.html',feedback = "Email enviado")  
+        return render_template('forgot.html',feedback = "Email enviado")
     else:
-        return render_template('forgot.html')  
+        return render_template('forgot.html')
 
 @app.route('/')
 def index():
@@ -164,7 +164,7 @@ def saveOrganization():
     passwd = f['passwd'].encode('utf-8')
     hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
     descripcion = f['descripcion']
-    organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email, address=address1) 
+    organization = Institution(name=name,telephone1=phone1,telephone2=phone2,description=descripcion,url=url,email=email, address=address1)
     usuario = User(email=email,password=hashed,institution=organization,role_id = 2,active=True)
     try:
         session.add(organization)
@@ -215,7 +215,7 @@ def saveContact():
 @login_required
 def getOrganizationsJSON():
     institutions = session.query(Institution).all()
-    return jsonify(items=[i.serialize for i in institutions])    
+    return jsonify(items=[i.serialize for i in institutions])
 
 
 @app.route('/contacts')
@@ -261,7 +261,7 @@ def search():
 
     magicQuery = text(
         """SELECT * FROM
-            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name, i.address AS hq, i.description, i.telephone1, i.telephone2, i.email, i.url,
+            (SELECT c.id, c.latitude AS lat, c.longitude AS lng, c.address, c.notas, c.name AS c_name, i.name AS i_name, i.address AS hq, i.description AS i_description, c.telephone1, c.telephone2, c.email, c.url,
                     (6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude)))) AS distance
             FROM contacts AS c
             INNER JOIN institutions AS i

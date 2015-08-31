@@ -6,11 +6,18 @@ var checked_tags = {}
 
 var searchResultHTML = "<dt class='listBorder resultEntry' id='result-%DATA%'></dt>";
 var institutionNameHTML = "<div>%data%</div>";
-var contactNameHTML = "<div>%data%</div>";
+var contactNameHTML = "<div class='contact-name'>%data%</div>";
 var addressHTML = "<div>%data%</div>";
 var HTMLtags = "<div class='tagsEntry'></div>";
 var HTMLtagEntry = "<span class='label label-default'>%DATA%</span>";
 var HTMLtagBarEntry = "<div class='object-tag' value='%data%'>%data%</div>";
+var HTMLlargeDescription = "<div class='contact-description' hidden></div>";
+var HTMLlargeDescPhone1 = "<div>tel: %DATA%</div>";
+var HTMLlargeDescPhone2 = "<div>tel: %DATA%</div>";
+var HTMLlargeDescNotes = "<div>%DATA%</div>";
+var HTMLlargeDescUrl = "<div>página web: <a href='%DATA%'>%DATA%</a></div>";
+var HTMLlargeDescEmail = "<div>email: %DATA%</div>";
+var HTMLlargeDescIDescription = "<div>%DATA%</div>";
 
 function initialize() {
   //Initialize Map
@@ -108,8 +115,16 @@ function initialize() {
     for(var i = 0; i < items.length; i++){
       $("#custom-counter").append(searchResultHTML.replace("%DATA%", i + 1));
       $(".resultEntry:last").append(contactNameHTML.replace("%data%", items[i].c_name));
-      $(".resultEntry:last").append(institutionNameHTML.replace("%data%", items[i].name));
+      $(".resultEntry:last").append(institutionNameHTML.replace("%data%", items[i].i_name));
       $(".resultEntry:last").append(addressHTML.replace("%data%", items[i].address));
+
+      var largeDescDiv = $(HTMLlargeDescription);
+      if(items[i].telephone1 != undefined && items[i].telephone1 != "") largeDescDiv.append(HTMLlargeDescPhone1.replace("%DATA%", items[i].telephone1));
+      if(items[i].url != undefined && items[i].url != "") largeDescDiv.append(HTMLlargeDescUrl.replace("%DATA%", items[i].url).replace("%DATA%", items[i].url));
+      if(items[i].email != undefined && items[i].email != "") largeDescDiv.append(HTMLlargeDescEmail.replace("%DATA%",items[i].email));
+      if(items[i].i_description != undefined && items[i].i_description != "") largeDescDiv.append(HTMLlargeDescIDescription.replace("%DATA%", items[i].i_description));
+      $(".resultEntry:last").append(largeDescDiv);
+
       if(items[i].tags != undefined && items[i].tags.length > 0){
        $(".resultEntry:last").append(HTMLtags);
        for(var x = 0; x < items[i].tags.length; x++){
@@ -125,6 +140,7 @@ function initialize() {
       items = filterResults(items);
     }
     for(var i = 0; i < items.length; i++){
+      console.log(items[i]);
       var latlng = new google.maps.LatLng(items[i].lat,items[i].lng);
       placeMarker(latlng, map, items[i].name, false, i + 1);
     }
@@ -147,6 +163,7 @@ function initialize() {
         }
       }
     }
+    results = filtered_items;
     return filtered_items;
   }
 
@@ -211,6 +228,12 @@ function initialize() {
           var topPos = scrollDiv.offsetTop;
           document.getElementById('leftMenu').scrollTop = topPos;
       });
+
+      marker.addListener('click', function(){
+          var contactDiv = document.getElementById('result-' + n);
+          toggleLongDesc(contactDiv);
+          $("#result-" + n).effect('highlight', {color:"#50AE55"}, 1500);
+      });
     }
     markers[n] = marker;
   }
@@ -238,6 +261,15 @@ function initialize() {
           markers[n].setAnimation(null);
       }
     }, '.resultEntry');
+
+  $("#custom-counter").on('click', '.resultEntry', function(){
+      toggleLongDesc($(this));
+  });
+
+  function toggleLongDesc(divElement){
+      var largeDescDiv = $('.contact-description', divElement);
+      largeDescDiv.slideToggle('slow');
+  }
 
   $("#filterButton").click(function(){
     $('#myModal').modal('hide');
