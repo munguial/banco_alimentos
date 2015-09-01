@@ -196,8 +196,11 @@ session.add(roleUser)
 
 
 
-user1 = User(email = "user@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 1,role_id=1)
+user1 = User(email = "user@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 1,role_id=2)
 session.add(user1)
+
+user4 = User(email = "admin@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 0,role_id=1)
+session.add(user4)
 
 user2 = User(email = "user@institucion2.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 2,role_id=2)
 session.add(user2)
