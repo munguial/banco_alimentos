@@ -43,6 +43,9 @@ session.add(test_inst4)
 test_inst5 = Institution(name="Institucion de prueba 5", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion5@prueba.com", url="institucion5.com")
 session.add(test_inst5)
 
+test_inst6 = Institution(name="Institucion de prueba 5", address="calle 1 colonia 2", description="esta es una institucion de prueba", telephone1="3325487456", telephone2="32546898745", email="institucion5@prueba.com", url="institucion5.com")
+session.add(test_inst5)
+
 contact1 = Contact(institution=test_inst1, name="Banco de Alimentos de Morelia", latitude=19.720515, longitude=-101.166866, address="Felipe Paramo #600 Col. Constituyentes de Querétaro, C.P. 58219, Morelia, Mich.", telephone1="4433230107", telephone2="4433230292", url="http://www.bamorelia.org.mx/", email="comunicacion@bamorelia.org.mx", notas="El Banco de Alimentos inicia sus operaciones en la ciudad de Morelia bajo la iniciativa del Excmo. Sr. Arzobispo Alberto Suárez y empresarios de la ciudad de Morelia, realizando la función de acopio, selección y distribución de alimento (perecedero y no perecedero) entregado en donación para hacerlo llegar en forma organizada a las zonas urbanas y conurbadas marginadas de Morelia, fungiendo como un puente entre aquellos que tienen y los que más necesitan.")
 session.add(contact1)
 
@@ -199,7 +202,7 @@ session.add(roleUser)
 user1 = User(email = "user@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 1,role_id=2)
 session.add(user1)
 
-user4 = User(email = "admin@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 0,role_id=1)
+user4 = User(email = "admin@banco-alimentos.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 1,role_id=1)
 session.add(user4)
 
 user2 = User(email = "user@institucion2.com", password = '$2b$12$XjinBePdx0rrT3bYdvyaW.9UxNWNlrT3cCt1TYNaumYoAw/mYCztK', active = True, inst_id = 2,role_id=2)
