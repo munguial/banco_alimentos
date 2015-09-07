@@ -5,3 +5,4 @@ drop table roles cascade;
 drop table roles_users cascade;
 drop table tags cascade;
 drop table tag_names cascade;
+
