@@ -2,7 +2,8 @@ var markers = [];
 var map;
 var lat;
 var lng;
-var HTMLcontact = "<div class='list-group'><a href='#' class='list-group-item list-group-item-success'><h4 class='list-group-item-heading'>%DATAHEAD%</h4><p class='list-group-item-text'>%DATA%</p></div></div>";
+//var HTMLcontact = "<div class='list-group'><a href='#' class='list-group-item list-group-item-success'><div><h4 class='list-group-item-heading'>%DATAHEAD%</h4><div><span class='glyphicon-trash'></span></div></div><p class='list-group-item-text'>%DATA%</p></div></div>";
+var HTMLcontact = "<ul class='list-group'><li class='list-group-item'><div><h5 class='list-group-item-heading'>%DATAHEAD%</h5><div class='edit-icon' id='edit-%ID%'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></div><div class='trash-icon' id='remove-%ID%'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></div></div><p class='list-group-item-text'>%DATA%</p></li></ul>";
 
 function initialize() {
 
@@ -119,6 +120,24 @@ function initialize() {
 
 $(document).ready(function() {
 
+  $("#registeredContacts").on('click', '.edit-icon', function(){
+    var n = $(this).attr('id').split('-')[1];
+    console.log("Editar " + n);
+  });
+
+  $("#registeredContacts").on('click', '.trash-icon', function(){
+    var n = $(this).attr('id').split('-')[1];
+    var c = confirm("¿Deseas eliminar este contacto?");
+    if(c) {
+      $.post("/contacts/delete", {id:n});
+      $.get("/contacts", function(data, status){
+        if(status === 'success') {
+          displayContacts(data.items);
+        }
+      });
+    }
+  });
+
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
       event.preventDefault();
@@ -163,7 +182,7 @@ $(document).ready(function() {
 function displayContacts(items) {
   $("#registeredContacts").empty();
   for(var i = 0; i < items.length; i++) {
-    var HTMLstring = HTMLcontact.replace("%DATAHEAD%", items[i].name).replace("%DATA%", items[i].address);
+    var HTMLstring = HTMLcontact.replace("%DATAHEAD%", items[i].name).replace("%DATA%", items[i].address).replace("%ID%", items[i].id).replace("%ID%", items[i].id);
     $("#registeredContacts").append(HTMLstring);
   }
 }

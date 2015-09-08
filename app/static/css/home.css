@@ -33,6 +33,32 @@
   width: 345px;
 }
 
+.list-item{
+  background-color: #DFF0D8;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
+  background-color: #50AE55;
+}
+
+.list-group-item-heading{
+  display:inline;
+}
+
+.trash-icon{
+  display: inline;
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+}
+
+.edit-icon{
+  display: inline;
+  position: absolute;
+  right: 35px;
+  cursor: pointer;
+}
+
 /*.verticalLine{
   border-left: thick solid #333;
 

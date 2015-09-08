@@ -179,6 +179,17 @@ def saveOrganization():
     return 'success'
 
 
+@app.route('/contacts/delete', methods=['POST'])
+def deleteContact():
+    f = request.form
+    contact_id = f['id']
+    contact = session.query(Contact).filter_by(id = contact_id).one();
+    print "se va a eliminar al contacto " + contact.name
+    session.delete(contact)
+    session.commit()
+    return 'success'
+
+
 @app.route('/contacts/save', methods=['POST'])
 def saveContact():
     f = request.form
