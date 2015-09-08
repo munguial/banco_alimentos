@@ -84,6 +84,7 @@ function initialize() {
         buildTagsFilter(results);
         placePins(results);
         displayResults(results);
+        $("#tagCounter").css("display","none");
       }
     }, "json");
   }
