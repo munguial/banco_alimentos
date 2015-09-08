@@ -178,7 +178,7 @@
 			position: absolute;
 			left: 10px;
 			top: 20px;
-			font: bold 50px/1 Sans-Serif;
+			font: bold 40px/1 Sans-Serif;
 
 		}
 		.custom-counter dd {
@@ -186,6 +186,7 @@
 		}	
 		.custom-counter dt, .faq dd {
 			padding-left: 70px;
+            padding-right:20px;
             
 		}
 

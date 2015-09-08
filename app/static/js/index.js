@@ -18,7 +18,7 @@ var HTMLlargeDescPhone2 = "<div>Tel: %DATA%</div>";
 var HTMLlargeDescNotes = "<div>%DATA%</div>";
 var HTMLlargeDescUrl = "<div>Página web: <a href='%DATA%'>%DATA%</a></div>";
 var HTMLlargeDescEmail = "<div>Email: %DATA%</div>";
-var HTMLlargeDescIDescription = "<div>%DATA%</div>";
+var HTMLlargeDescIDescription = "<div class='org_description'>%DATA%</div>";
 
 function initialize() {
   //Initialize Map

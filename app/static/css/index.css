@@ -165,4 +165,11 @@ dt{
  border: 2px solid #FFFFFF;
 }
 
+.label-default{
+  background-color:#ffffff!important;
+  color:#0B1C25!important;
+}
 
+.org_description{
+  margin-top:15px;
+}

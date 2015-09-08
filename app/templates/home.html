@@ -22,13 +22,16 @@
           <img id="logo" src="static/images/logo2.png" class="img-responsive">
         </div>
         <div class="col-xs-10">
-          <h3>BIENVENIDO {% if current_user.is_authenticated() %}{{ current_user.email }}{% endif %}</h3>
-        <span style="font-size:18px;"><a href='/logout'>cerrar sesion</a></span></div>
+          <div id="login-box">
+            <h3>BIENVENIDO <br>{% if current_user.is_authenticated() %}{{ current_user.email }}{% endif %}</h3>
+            <hr>
+            <span><a href='/logout'>cerrar sesion</a></span></div>
+          </div>
       </div>
       <div class="row">
         <div class="col-xs-8">
           <div class="row">
-            <div class="col-xs-12 header-2">
+            <div class="col-xs-12 header-2 dir-fix">
               REGISTRA UN PUNTO DE CONTACTO
             </div>
           </div>
@@ -38,7 +41,7 @@
             <!-- general info left -->
             <div class="col-xs-6">
               
-            <div class="col-xs-12">
+           
                 <div class="form-group form-item">
                     <label for="name" class="control-label">NOMBRE</label>
                     <input type="text" name="name" class="form-control" placeholder="Nombre" data-error="Por favor introduzca un nombre para este punto de contacto" id="inputName" required>
@@ -56,7 +59,7 @@
                     <textarea class="form-control" name="notes" rows="3" id="inputNotes" placeholder="Notas adicionales acerca de este punto de contacto" ></textarea>
                 </div>
 
-            </div>
+          
             
           </div>
           
@@ -84,7 +87,7 @@
             </div>
 
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-xs-12 dir-fix">
                 <div class="form-group form-item">
                   <label for="address" class="control-label">DIRECCIÓN</label>
                   <input id="pac-input" class="form-control" type="text" name="address" placeholder="Dirección del punto de contacto" required/>
@@ -95,13 +98,13 @@
 
             <!-- MAP-DIV -->
             <div class="row">
-              <div class="col-xs-12 form-group">
+              <div class="col-xs-12 form-group dir-fix">
                 <div id="map-div"></div>
               </div>
             </div>
 
             <!--  TAGS -->
-            <div class="form-group form-item">
+            <div class="form-group form-item dir-fix">
               <label for="tags" class="control-label">SERVICIO(S) QUE OFRECES EN TU PUNTO DE CONTACTO:</label>
               <div id="tags-div">
                 {% for i in tags %}
