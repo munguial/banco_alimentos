@@ -62,6 +62,7 @@ class Contact(db.Model):
     email = Column(String(255))
     url = Column(String(512))
     notas = Column(String(2000))
+    tags = relationship("Tag", cascade="all, delete-orphan", backref="contacts")
 
     @property
     def serialize(self):
@@ -95,7 +96,7 @@ class TagName(db.Model):
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = Column(Integer, primary_key=True)
-    contact_id = Column(Integer, ForeignKey('contacts.id'))
+    contact_id = Column(Integer, ForeignKey('contacts.id', ondelete='CASCADE'))
     contact = relationship("Contact", foreign_keys=[contact_id])
     tag_name_id = Column(Integer, ForeignKey('tag_names.id'))
     tag_name = relationship("TagName", foreign_keys=[tag_name_id])
