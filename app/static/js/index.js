@@ -226,7 +226,7 @@ function initialize() {
       });
 
       marker.addListener('mouseover', function(){
-          $("#result-" + n).effect('highlight', {color:"#50AE55"}, 1500);
+          $("#result-" + n).effect('highlight', {color:"#0B1C25"}, 1500);
           var scrollDiv = document.getElementById('result-' + n);
           var topPos = scrollDiv.offsetTop;
           document.getElementById('leftMenu').scrollTop = topPos;
@@ -235,7 +235,7 @@ function initialize() {
       marker.addListener('click', function(){
           var contactDiv = document.getElementById('result-' + n);
           toggleLongDesc(contactDiv);
-          $("#result-" + n).effect('highlight', {color:"#50AE55"}, 1500);
+          $("#result-" + n).effect('highlight', {color:"#0B1C25"}, 1500);
       });
     }
     markers[n] = marker;
