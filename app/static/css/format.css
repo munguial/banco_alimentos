@@ -100,6 +100,10 @@
     padding-right: 0px;
     overflow-y: scroll;
     width: 400px;
+    box-shadow: 8px 2px 14px -1px #666666;
+-webkit-box-shadow: 8px 2px 14px -1px #666666;
+-moz-box-shadow: 8px 2px 14px -1px #666666;
+-o-box-shadow: 8px 2px 14px -1px #666666;
 }
 
 #leftMenuMin
@@ -153,26 +157,27 @@
     z-index: 11;
     text-align: center;
     width: 100%;
-    font-size: 24px;
+    font-size: 35px;
+    line-height: 24px;
 }
 
 
 
 .custom-counter {
 			counter-reset: my-badass-counter;
-            padding: 10px;
+            padding: 0px;
 		}
 		.custom-counter dt {
 			position: relative;
-			font:13px Georgia;
-			padding: 4px 0 10px 0;
+			font:13px helvetica, arial, verdana!important;
+			padding: 15px 0 15px 0;
 		}
 		.custom-counter dt:before {
 			content: counter(my-badass-counter);
 			counter-increment: my-badass-counter;
 			position: absolute;
-			left: 0;
-			top: 0;
+			left: 10px;
+			top: 20px;
 			font: bold 50px/1 Sans-Serif;
 
 		}
@@ -180,7 +185,7 @@
 			margin: 0 0 50px 0;
 		}	
 		.custom-counter dt, .faq dd {
-			padding-left: 60px;
+			padding-left: 70px;
             
 		}
 

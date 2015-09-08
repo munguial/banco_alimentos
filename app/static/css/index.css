@@ -19,7 +19,8 @@ html, body {
 }
 
 .highlight {
-	background-color: #50AE55;
+
+background-color: #0B1C25!important;
 }
 
 dt{
@@ -60,9 +61,6 @@ dt{
 }
 .contact-distance {
 	font-size: 11px;
-}
-#custom-counter{
-	font-family: Arial, Helvetica, sans-serif;
 }
 
 #pac-input {
@@ -108,8 +106,10 @@ dt{
     height: 13%;
     font-size: 60px;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
-    box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.3);
-}
+ box-shadow: 8px 2px 14px -1px #666666;
+-webkit-box-shadow: 8px 2px 14px -1px #666666;
+-moz-box-shadow: 8px 2px 14px -1px #666666;
+-o-box-shadow: 8px 2px 14px -1px #666666;}
 
 .label {
   margin-right: 3px;
@@ -122,9 +122,13 @@ dt{
 {
   color: #fff;
   font-size: 20px;
-  float:left;
-  margin-bottom: 1px;
+  float:right;
+  line-height: 110px;
+  margin-right: 20px;
+
 }
+
+.login a{color:#ffffff;}
 .object-tag.selected {
   background: transparent linear-gradient(#434343, #595959) repeat scroll 0% 0%;
   border: 1px solid transparent;
@@ -160,3 +164,5 @@ dt{
  display: none;
  border: 2px solid #FFFFFF;
 }
+
+

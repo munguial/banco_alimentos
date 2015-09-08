@@ -52,13 +52,6 @@
   cursor: pointer;
 }
 
-.edit-icon{
-  display: inline;
-  position: absolute;
-  right: 35px;
-  cursor: pointer;
-}
-
 /*.verticalLine{
   border-left: thick solid #333;
 
@@ -133,3 +126,10 @@
   font-size: 17px;
   color:red;
 }
+
+#logo {margin-top:15px;}
+.header-2 {
+  margin-bottom:30px;
+  letter-spacing:-1px;
+}
+
