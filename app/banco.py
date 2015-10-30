@@ -6,6 +6,7 @@ from database_setup import Contact, Institution, TagName, Tag, User
 from flask.ext.heroku import Heroku
 
 
+
 from flask_security import (
     Security,
     SQLAlchemyUserDatastore,
