@@ -122,6 +122,7 @@ def generateRandomPassword():
     passwd.encode('utf-8')
     print passwd
     hashed = bcrypt.hashpw(passwd, bcrypt.gensalt())
+
     return hashed
 
 @app.route("/forgot",methods=['GET','POST'])
