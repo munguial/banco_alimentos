@@ -73,6 +73,7 @@ def validatePassword(usuario, passwd):
             return False
 
 
+
 def redirectUser():
     if current_user.role_id == 2:
         return redirect('/home')
