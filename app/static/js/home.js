@@ -44,7 +44,7 @@ function initialize() {
       //GeoLocation service failed
       map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
     });
-  } 
+  }
   else {
     // Browser doesn't support Geolocation
     map.setCenter(new google.maps.LatLng(20.711076, -103.410004));
@@ -161,7 +161,7 @@ $(document).ready(function() {
       $("#latInput").val(lat);
       $("#lngInput").val(lng);
       var posting = $.post('/contacts/save', $("#contact-form").serialize());
-      
+
       posting.done(function( data ) {
         if(data === 'success'){
           clearFormFields();
@@ -177,7 +177,7 @@ $(document).ready(function() {
       });
     }
   });
-}); 
+});
 
 function displayContacts(items) {
   $("#registeredContacts").empty();
@@ -193,6 +193,7 @@ function clearFormFields(){
     if($(this).prop('checked')){
       $(this).click();
     }
+
   });
 }
 
